@@ -1,23 +1,28 @@
  import React from "react";
- import { Link,Outlet } from "react-router-dom";
+ import { Outlet } from "react-router-dom";
+
+ import { Navbar, Nav, Container } from 'react-bootstrap';
+ import 'bootstrap/dist/css/bootstrap.min.css'
+ import '../../public/styles/style.css';
+
  
  
  function Layout(){
 
     return (
         <div>
-        <header>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Inicio</Link>
-                    </li>
-                    <li>
-                        <Link to="/home">Home</Link>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+             <header>
+                <Navbar bg="dark" variant="dark" expand="lg">
+                    <Container>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="me-auto">
+                                <Nav.Link href="/">Home</Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            </header>
         <Outlet />
         </div>
     );
