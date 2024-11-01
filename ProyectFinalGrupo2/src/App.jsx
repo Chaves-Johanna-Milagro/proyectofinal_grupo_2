@@ -1,17 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
 //import './App.css'
-import JuegoPhaser from './Components/JuegoPhaser'
+import Layout from './Components/Layout';
+import Home from './Components/Home';
+import JuegoPhaser from './Components/JuegoPhaser';
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
-    <>
-      <JuegoPhaser/>
-    </>
-  )
-}
+    <Routes>
+      <Route path='/' element={ <Layout /> } >
+        <Route index element={ <h1>pag Principal</h1>} />
+        <Route path='home' element={ <Home /> } />
+      </Route>
+    </Routes>
+  );
+};
 
-export default App
+export default App;
