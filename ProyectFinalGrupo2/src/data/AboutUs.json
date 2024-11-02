@@ -1,0 +1,21 @@
+[{
+    "id": 1,
+    "name": "Nombre01",
+    "rol": "Rol01",
+    "description": "Descripcion01"
+},{
+    "id": 2,
+    "name": "Nombre02",
+    "rol": "Rol02",
+    "description": "Descripcion02"
+},{
+    "id": 2,
+    "name": "Nombre03",
+    "rol": "Rol03",
+    "description": "Descripcion03"
+},{
+    "id": 4,
+    "name": "Nombre04",
+    "rol": "Rol04",
+    "description": "Descripcion04"
+}]
