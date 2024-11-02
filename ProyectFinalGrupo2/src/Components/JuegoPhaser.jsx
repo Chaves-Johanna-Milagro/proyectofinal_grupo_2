@@ -21,7 +21,7 @@ function JuegoPhaser(){
 
             parent: 'phaser-game',
             Scale: {
-                mode: Phaser.Scale.FIT, // redimencionamiento automatico
+                mode: Phaser.Scale.RESIZE, // redimencionamiento automatico
                 autoCenter:Phaser.Scale.CENTER_BOTH
             },
         
