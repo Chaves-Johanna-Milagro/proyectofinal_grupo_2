@@ -1,11 +1,9 @@
  import React from "react";
  import { Outlet } from "react-router-dom";
 
- import { Navbar, Nav, Container } from 'react-bootstrap';
+ import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap';
  import 'bootstrap/dist/css/bootstrap.min.css'
  import '../../public/styles/style.css';
-
- 
  
  function Layout(){
 
@@ -19,7 +17,17 @@
                             <Nav className="me-auto">
                                 <Nav.Link href="/">Home</Nav.Link>
                                 <Nav.Link href="/aboutUs">AboutUs</Nav.Link>
-                                <Nav.Link href="/juegoPhaser">JuegoPhaser</Nav.Link>
+                                <NavDropdown
+                                 id="nav-dropdown-dark-example"
+                                 title="Proyectos"
+                                 menuVariant="dark"
+                                >
+                               <NavDropdown.Item href="/calculadoraIMC">Calculadora IMC</NavDropdown.Item>                               
+                               <NavDropdown.Item href="/gestorBilleteraVirtual"> Gestor de Billeteras Virtuales </NavDropdown.Item>
+                               <NavDropdown.Divider />                               
+                               <NavDropdown.Item href="/juegoPhaser"> Esquivar Meteoros </NavDropdown.Item>
+                               <NavDropdown.Item href="/juegoReact"> Desafio Matematico </NavDropdown.Item>
+                               </NavDropdown>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
@@ -30,3 +38,4 @@
     );
  };
  export default Layout;
+ 
