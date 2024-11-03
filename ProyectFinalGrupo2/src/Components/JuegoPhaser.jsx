@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import '../../public/styles/Phaser.css';
 
-import Phaser, { Scale } from 'phaser';
+import Phaser from 'phaser';
+import { Scale } from 'phaser';
 
 import Menu from '../Scenes/Menu';
 import Play from '../Scenes/Play';
@@ -16,12 +17,11 @@ function JuegoPhaser(){
         const config = {
             type: Phaser.AUTO,
             backgroundColor: '#30303e',
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: 800,
+            height: 600,
 
             parent: 'phaser-game',
-            Scale: {
-                mode: Phaser.Scale.RESIZE, // redimencionamiento automatico
+            scale: {
                 autoCenter:Phaser.Scale.CENTER_BOTH
             },
         
@@ -38,14 +38,14 @@ function JuegoPhaser(){
         
         let game = new Phaser.Game(config);
 
-        //redimencionará al momento que cambie el tamaño de la pantalla
+        //redimensionará al momento que cambie el tamaño de la pantalla
         const handleResize = () => {
-           game.scale.resize(window.innerWidth, window.innerHeight);
+           game.scale.resize(800,600);
         };
   
         window.addEventListener("resize", handleResize);
   
-        // elimina el juego y el redimencionamiento cuando el componente se desmonte
+        // elimina el juego y el redimensionamiento cuando el componente se desmonte
         return () => {
          window.removeEventListener("resize", handleResize);
          game.destroy(true); // Destruye el juego para liberar recursos
@@ -54,7 +54,7 @@ function JuegoPhaser(){
     },[]);
 
     return (
-        <div id='phaser-game' style={{ width: "100vw", height: "100vh", overflow: "hidden"}} />
+        <div id='phaser-game' style={{ width: "95vw", height: "100vh", overflow: "hidden"}} />
     );
 }
 export default JuegoPhaser;
