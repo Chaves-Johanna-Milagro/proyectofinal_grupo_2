@@ -30,8 +30,10 @@ class Play02 extends Phaser.Scene{
         //player y balas
         this.load.spritesheet('nave02', '../public/resources/img/spritenave02.png', { frameWidth: 50, frameHeight: 46 });
         this.load.image('balaHorizontal', '../public/resources/img/balaHorizontal.png ')
-
+        
+        //enemigo y meteoro
         this.load.image('enemigo', '../public/resources/img/enemigo.png');
+        this.load.image('meteoro', '../public/resources/img/meteoro.png');
 
         this.load.spritesheet('boss', '../public/resources/img/boss.png', { frameWidth: 190, frameHeight: 560 })
     }
@@ -74,6 +76,20 @@ class Play02 extends Phaser.Scene{
         
         this.textoDeJefe.setText('BOSS: ' + this.bossLife);
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+    }
+
+    obstaculosVertical(){
+        this.grupoMeteoros = this.physics.add.group();
+        this.time.addEvent({ delay: 1000, callback: this.generarMeteoros, callbackScope: this, loop: true });
+    }
+    generarMeteoros() {
+        const x = Phaser.Math.Between(0, 800);
+        const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro');
+        meteoro.setVelocityY(200);
+    }
+    destruirMeteoro(bala,meteoro){
+        bala.destroy();
+        meteoro.destroy();
     }
     
     
@@ -150,6 +166,9 @@ class Play02 extends Phaser.Scene{
 
         //el delay se cambiara a 3000 para q el boss aparezca 30 seg despues de entrar al nivel, esta en 500 para testear
         this.time.addEvent({ delay: 20000, callback: this.mostrarBoss, callbackScope: this, loop: false });
+
+        //conteo para aparicion de obstaculos en vertical
+        this.time.addEvent({ delay: 60000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
     }
 
     update(){
@@ -195,6 +214,7 @@ class Play02 extends Phaser.Scene{
 
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
+            this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
             
 
             //destruye la bala cuando sale de la pantalla para que no ocupe memoria
