@@ -2,13 +2,13 @@
  import { Outlet } from "react-router-dom";
 
  import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap';
- import 'bootstrap/dist/css/bootstrap.min.css'
- import '../../public/styles/style.css';
+ //import 'bootstrap/dist/css/bootstrap.min.css'
+ import '../../public/styles/layout.css';
  
  function Layout(){
 
     return (
-        <div>
+        <div className="layout">
              <header>
                 <Navbar bg="dark" variant="dark" expand="lg">
                     <Container>
@@ -33,7 +33,13 @@
                     </Container>
                 </Navbar>
             </header>
-        <Outlet />
+            <main className="content">
+                <Outlet />             
+            </main>
+            <footer className="footer">
+                <p>Fundamentos de Programación Web - TUDIVJ - UNJu</p>
+            </footer>
+
         </div>
     );
  };

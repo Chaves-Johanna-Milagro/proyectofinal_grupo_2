@@ -119,11 +119,6 @@ function Home(){
                 </Container>
             </main>
 
-            <footer className="footer bg-dark text-center text-white">
-                <Container>
-                    <p>Fundamentos de Programación Web - TUDIVJ - UNJu</p>
-                </Container>
-            </footer>
         </>
 
     );

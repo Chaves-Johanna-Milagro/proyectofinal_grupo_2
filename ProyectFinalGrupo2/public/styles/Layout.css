@@ -1,0 +1,19 @@
+/* para que el layout ocupe toda la altura de la pantalla*/
+.layout{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/*para que el contenido ocupe el espacio disponible*/
+.content{
+    flex: 1;
+}
+
+/*pa que footer siempre esté al final de la pantalla*/
+.footer{
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
