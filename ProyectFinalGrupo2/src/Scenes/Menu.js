@@ -30,7 +30,7 @@ class Menu extends Phaser.Scene{
         //iniciar juego presionando space
         this.input.keyboard.once('keydown-SPACE', () =>{
             this.menuAudio.stop();
-            this.scene.start('Play');
+            this.scene.start('Play02');//cambiar a Play para presentar, esta en 02 para testeo
         })
     }
 }
