@@ -1,25 +1,29 @@
 [{
     "id": 1,
     "photo": "../../public/img/logo.png",
-    "name": "Nombre01",
-    "rol": "Rol01",
-    "description": "Descripcion01"
+   "name": "Castro Jose",
+    "rol": "Estudiante",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "github": "colocar su repositorio aqui"
 },{
     "id": 2,
     "photo": "../../public/img/imagen.jpg",
-    "name": "Nombre02",
-    "rol": "Rol02",
-    "description": "Descripcion02"
+    "name":"Chaves Johanna",
+    "rol":"estudiante de la carrera de videojuegos de la UNJU",
+    "description":"me gustan los gatos, vivo en el monte, fin",
+    "github": "colocar su repositorio aqui"
 },{
     "id": 2,
     "photo": "../../public/img/imagen.jpg",
-    "name": "Nombre03",
-    "rol": "Rol03",
-    "description": "Descripcion03"
+    "name":"Goitea Mateo Nicolás",
+    "rol": "Estudiante",
+    "description":"Tengo 20 años, estudio en la carrera TUDIVJ de la UNJU. Vengo de la ETP Nº1. Mi comida favorita es la hamburguesa, mi juego favorito es DOOM, me gusta dibujar. Siganme en instagram xd: @srgreen_73",
+    "github": "https://github.com/MateoGoitea"
 },{
     "id": 4,
     "photo": "../../public/img/imagen.jpg",
-    "name": "Nombre04",
-    "rol": "Rol04",
-    "description": "Descripcion04"
+    "name":"Jimenez Jesús",
+    "rol":"Estudiante",
+    "description":"HOlA soy Yisus,me encanta crear nuevas cosas o inventar por eso desarrollo videojuegos son la perfecta interseccion entre todos mis gustos",
+    "github": "colocar su repositorio aqui"
 }]
