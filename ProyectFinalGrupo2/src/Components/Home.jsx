@@ -13,7 +13,7 @@ function Home(){
                         <Figure className="image">
                             <Figure.Image
                                 className="img-prin"
-                                src="imagenes/principal.png"
+                                src='../../public/img/principal.png'
                                 alt="Imagen principal"
                                 style={{ width: '100%', height: 'auto' }}
                             />
@@ -35,7 +35,7 @@ function Home(){
                             <Col md={3}>
                                 <Figure>
                                     <Figure.Image
-                                        src="imagenes/empresa.png"
+                                        src='../../public/img/empresa.png'
                                         alt="Empresa"
                                         width="200px"
                                     />
@@ -47,7 +47,7 @@ function Home(){
                             <Col md={3}>
                                 <Figure>
                                     <Figure.Image
-                                        src="imagenes/miembros.png"
+                                        src='../../public/img/miembros.png'
                                         alt="Miembros"
                                         width="300px"
                                     />
@@ -86,7 +86,7 @@ function Home(){
                             <Col md={3}>
                                 <Figure>
                                     <Figure.Image
-                                        src="imagenes/plataformas.png"
+                                        src='../../public/img/plataformas.png'
                                         alt="Plataformas"
                                         width="300px"
                                     />
@@ -98,7 +98,7 @@ function Home(){
                             <Col md={3}>
                                 <Figure>
                                     <Figure.Image
-                                        src="imagenes/contacto.png"
+                                        src='../../public/img/contacto.png'
                                         alt="Contacto"
                                         width="100px"
                                     />
