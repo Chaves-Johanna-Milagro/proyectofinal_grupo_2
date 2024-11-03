@@ -1,20 +1,24 @@
 [{
     "id": 1,
+    "photo": "../../public/img/logo.png",
     "name": "Nombre01",
     "rol": "Rol01",
     "description": "Descripcion01"
 },{
     "id": 2,
+    "photo": "../../public/img/imagen.jpg",
     "name": "Nombre02",
     "rol": "Rol02",
     "description": "Descripcion02"
 },{
     "id": 2,
+    "photo": "../../public/img/imagen.jpg",
     "name": "Nombre03",
     "rol": "Rol03",
     "description": "Descripcion03"
 },{
     "id": 4,
+    "photo": "../../public/img/imagen.jpg",
     "name": "Nombre04",
     "rol": "Rol04",
     "description": "Descripcion04"
