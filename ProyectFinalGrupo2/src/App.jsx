@@ -8,7 +8,7 @@ import CalculadoraIMC from './Components/CalculadoraIMC';
 import GestorBilleteraVirtual from './Components/GestorBilleteraVirtual';
 import JuegoPhaser from './Components/JuegoPhaser';
 import IMCCalcular from './Components/IMCCalcular';
-import JuegoReact from './Components/JuegoReact';
+import JuegoReact from './Components/desafioMatematico/JuegoReact';
 import ErrorPage from './Components/ErrorPage';
 
 
