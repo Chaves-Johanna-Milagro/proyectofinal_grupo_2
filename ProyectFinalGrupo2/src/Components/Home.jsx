@@ -13,7 +13,7 @@ function Home(){
                         <Figure className="image">
                             <Figure.Image
                                 className="img-prin"
-                                src="imagenes/principal.png"
+                                src="img/principal.png"
                                 alt="Imagen principal"
                                 style={{ width: '100%', height: 'auto' }}
                             />

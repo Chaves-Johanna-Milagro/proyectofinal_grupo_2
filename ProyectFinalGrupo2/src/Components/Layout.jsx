@@ -20,6 +20,7 @@
                                 <Nav.Link href="/">Home</Nav.Link>
                                 <Nav.Link href="/aboutUs">AboutUs</Nav.Link>
                                 <Nav.Link href="/juegoPhaser">JuegoPhaser</Nav.Link>
+                                <Nav.Link href ="/IMCCalcular">Salud Jugador:IMC</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
