@@ -8,10 +8,10 @@
 },{
     "id": 2,
     "photo": "../../public/img/imagen.jpg",
-    "name":"Chaves Johanna",
-    "rol":"estudiante de la carrera de videojuegos de la UNJU",
+    "name":"Chaves Johanna Milagro",
+    "rol":"Estudiante",
     "description":"me gustan los gatos, vivo en el monte, fin",
-    "github": "colocar su repositorio aqui"
+    "github": "https://github.com/Chaves-Johanna-Milagro"
 },{
     "id": 2,
     "photo": "../../public/img/imagen.jpg",

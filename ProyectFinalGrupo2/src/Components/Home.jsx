@@ -7,7 +7,7 @@ import '../../public/styles/style.css';
 function Home(){
     return(
         <>
-            <main className="section">
+            <main className="home">
                 <Container>
                     <section className="principal">
                         <Figure className="image">
@@ -60,7 +60,7 @@ function Home(){
                                         <Card.Text>
                                             Nuestra empresa cuenta con los siguientes trabajadores:
                                         </Card.Text>
-                                        <ul className="listaIntegrantes">
+                                        <ul>
                                             <li>Castro Jose</li>
                                             <li>Chaves Johanna</li>
                                             <li>Goitea Mateo Nicolás</li>

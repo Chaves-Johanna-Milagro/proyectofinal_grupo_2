@@ -6,9 +6,30 @@ body {
     background-size: cover;
 }
 
-.section {
+.home {
     padding: 3rem 1.5rem;
 
+    .card {
+        background: linear-gradient(0deg, rgb(108, 134, 208) 0%, rgb(64, 51, 124) 100%);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    .card-title {
+        font-weight: 700;
+        color: #ffffff;      
+    }
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+    li{
+    color: #ffffff;
+    }
 }
 
 .principal img {
@@ -16,29 +37,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card {
-    background: linear-gradient(0deg, rgb(108, 134, 208) 0%, #40337c 100%);
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-}
 
-.card-body {
-    padding: 2rem;
-}
 
-.card-title {
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.card-text {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
-.listaIntegrantes{
-    color: #ffffff;
-}
 .image img {
     border-radius: 8px;
     transition: transform 0.3s ease;
