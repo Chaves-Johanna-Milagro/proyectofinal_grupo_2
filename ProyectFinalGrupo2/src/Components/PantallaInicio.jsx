@@ -1,5 +1,5 @@
 // src/components/PantallaInicio.js
-import React from 'react';
+/*import React from 'react';
 
 function PantallaInicio({ setNivelSeleccionado, iniciarJuego }) {
   return (
@@ -15,3 +15,4 @@ function PantallaInicio({ setNivelSeleccionado, iniciarJuego }) {
 }
 
 export default PantallaInicio;
+*/

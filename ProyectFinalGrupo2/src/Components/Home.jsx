@@ -33,7 +33,7 @@ function Home(){
                                 </Card>
                             </Col>
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/empresa.png'
                                         alt="Empresa"
@@ -45,7 +45,7 @@ function Home(){
 
                         <Row className="align-items-center">
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/miembros.png'
                                         alt="Miembros"
@@ -60,7 +60,7 @@ function Home(){
                                         <Card.Text>
                                             Nuestra empresa cuenta con los siguientes trabajadores:
                                         </Card.Text>
-                                        <ul>
+                                        <ul className="listaIntegrantes">
                                             <li>Castro Jose</li>
                                             <li>Chaves Johanna</li>
                                             <li>Goitea Mateo Nicolás</li>
@@ -84,7 +84,7 @@ function Home(){
                                 </Card>
                             </Col>
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/plataformas.png'
                                         alt="Plataformas"
@@ -96,7 +96,7 @@ function Home(){
 
                         <Row className="align-items-center">
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/contacto.png'
                                         alt="Contacto"

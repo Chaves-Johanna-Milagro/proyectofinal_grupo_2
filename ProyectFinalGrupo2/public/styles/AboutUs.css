@@ -13,10 +13,6 @@
     gap: 20px;
 }
 
-.card{
-    background: linear-gradient(0deg, rgb(139, 156, 202) 0%, #4b407e 100%);
-}
-
 /*la foto*/
 .miembros img{
     width: 100px;
