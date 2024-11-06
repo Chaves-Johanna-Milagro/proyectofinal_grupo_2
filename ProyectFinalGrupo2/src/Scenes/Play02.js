@@ -5,6 +5,8 @@ class Play02 extends Phaser.Scene{
     constructor(){
         super("Play02");
         this.jugador = null;
+        this.jugadorVida = 3;
+        this.vidas = null;
         this.cursors = null;
         this.fireBall = null;
         this.boss = null;
@@ -30,6 +32,7 @@ class Play02 extends Phaser.Scene{
         //player y balas
         this.load.spritesheet('nave02', '../public/resources/img/spritenave02.png', { frameWidth: 50, frameHeight: 46 });
         this.load.image('balaHorizontal', '../public/resources/img/balaHorizontal.png ')
+        this.load.spritesheet('vidas', '../public/resources/img/vidas.png', { frameWidth: 127, frameHeight: 40 });
         
         //enemigo y meteoro
         this.load.image('enemigo', '../public/resources/img/enemigo.png');
@@ -52,6 +55,11 @@ class Play02 extends Phaser.Scene{
 
     }
 
+    quitarVida(enemigo){
+        enemigo.destroy();
+        this.jugadorVida -= 1;
+        console.log(this.jugadorVida);
+    }
     gameOver(jugador) {
         this.physics.pause();
         jugador.setTint(0xff0000);
@@ -123,6 +131,8 @@ class Play02 extends Phaser.Scene{
         this.jugador = this.physics.add.sprite(10, 300, 'nave02', 1);
         this.jugador.setCollideWorldBounds(true);
 
+        this.vidas = this.add.sprite(73,570,'vidas',0);
+
         //creacion de los inputs
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors.z = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
@@ -132,7 +142,7 @@ class Play02 extends Phaser.Scene{
         this.time.addEvent({ delay: 1000, callback: this.generarEnemigos, callbackScope: this, loop: true });
 
         //control colision
-        this.physics.add.collider(this.jugador, this.grupoEnemigos, this.gameOver, null, this);
+        this.physics.add.collider(this.jugador, this.grupoEnemigos, this.quitarVida, null, this);
 
         //animacion del jugador
         this.anims.create({
@@ -148,6 +158,23 @@ class Play02 extends Phaser.Scene{
         this.anims.create({
             key: 'up',
             frames: [{ key: 'nave02', frame: 0 }],
+            frameRate: 20
+        });
+
+        //muestra de la vida
+        this.anims.create({
+            key: '3',
+            frames: [{ key: 'vidas', frame: 0 }],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: '2',
+            frames: [{ key: 'vidas', frame: 1 }],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: '1',
+            frames: [{ key: 'vidas', frame: 2 }],
             frameRate: 20
         });
 
@@ -210,7 +237,19 @@ class Play02 extends Phaser.Scene{
 
             //this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
 
-            
+        //control vida jugador
+        if(this.jugadorVida==3){
+            this.vidas.anims.play('3', true);
+        } 
+        if(this.jugadorVida==2){
+            this.vidas.anims.play('2', true);
+        }  
+        if(this.jugadorVida==1){
+            this.vidas.anims.play('1', true);
+        }
+        if(this.jugadorVida==0){
+            this.gameOver();
+        }   
 
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
