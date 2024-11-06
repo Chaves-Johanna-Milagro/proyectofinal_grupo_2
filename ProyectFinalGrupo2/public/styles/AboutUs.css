@@ -7,11 +7,12 @@
     }
     .card-title, .card-subtitle, .card-text, h1{
         padding: 1rem;
-        background: linear-gradient(rgb(64, 51, 124),rgb(108, 134, 208));
+        background: linear-gradient(rgb(227, 185, 255),rgb(122, 202, 255));
         -webkit-background-clip: text;
         background-clip: text;       
         -webkit-text-fill-color: transparent;
         color: transparent;
+        font-weight: bold;
     }
     img{
         width: 100px;
