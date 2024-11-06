@@ -6,32 +6,30 @@ body {
     background-size: cover;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: #ffffff;
-    margin-bottom: 1rem;
-}
-/*
-.navbar {
-    background-color: #2a2a2a;
-}
-
-.navbar .nav-link {
-    color: #f5f5f5;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-.navbar .nav-link:hover {
-    background-color: #4a4a4a;
-}
-
-.navbar-brand img {
-    max-height: 60px;
-}
-*/
-.section {
+.home {
     padding: 3rem 1.5rem;
-   /* background-color: #fff;*/
+
+    .card {
+        background: linear-gradient(0deg, rgb(108, 134, 208) 0%, rgb(64, 51, 124) 100%);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    .card-title {
+        font-weight: 700;
+        color: #ffffff;      
+    }
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+    li{
+    color: #ffffff;
+    }
 }
 
 .principal img {
@@ -39,25 +37,7 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card {
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-}
 
-.card-body {
-    padding: 2rem;
-}
-
-.card-title {
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.card-text {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
 
 .image img {
     border-radius: 8px;
@@ -67,23 +47,9 @@ h1, h2, h3, h4, h5, h6 {
 .image img:hover {
     transform: scale(1.05);
 }
-/*
-.footer {
-    padding: 2rem;
-    background-color: #2a2a2a;
-}
 
-.footer p {
-    color: #f5f5f5;
-    margin: 0;
-}
-*/
 /* Responsividad */
-@media (max-width: 768px) {
-    .navbar {
-        background-color: #2a2a2a;
-    }
-    
+@media (max-width: 768px) { 
     .section {
         padding: 1.5rem 1rem;
     }

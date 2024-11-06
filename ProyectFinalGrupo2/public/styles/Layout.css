@@ -12,6 +12,7 @@
 
 /*pa que footer siempre esté al final de la pantalla*/
 .footer{
+    padding: 10px;
     background-color: #121212;
     color: #ffffff;
     text-align: center;

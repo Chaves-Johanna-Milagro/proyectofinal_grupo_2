@@ -7,7 +7,7 @@ import '../../public/styles/style.css';
 function Home(){
     return(
         <>
-            <main className="section">
+            <main className="home">
                 <Container>
                     <section className="principal">
                         <Figure className="image">
@@ -33,7 +33,7 @@ function Home(){
                                 </Card>
                             </Col>
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/empresa.png'
                                         alt="Empresa"
@@ -45,7 +45,7 @@ function Home(){
 
                         <Row className="align-items-center">
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/miembros.png'
                                         alt="Miembros"
@@ -84,7 +84,7 @@ function Home(){
                                 </Card>
                             </Col>
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/plataformas.png'
                                         alt="Plataformas"
@@ -96,7 +96,7 @@ function Home(){
 
                         <Row className="align-items-center">
                             <Col md={3}>
-                                <Figure>
+                                <Figure className="image">
                                     <Figure.Image
                                         src='../../public/img/contacto.png'
                                         alt="Contacto"

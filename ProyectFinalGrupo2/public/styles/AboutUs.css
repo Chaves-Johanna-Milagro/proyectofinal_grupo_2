@@ -1,46 +1,21 @@
-.conteiner{
-    text-align: center;
-    color: #ffffff;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-}
+.aboutUs{
 
-/*la disposicion de los perfiles de cada uno*/
-.miembros{
-    display: grid;
-    grid-template-columns: repeat(4 , 1fr);
-    gap: 20px;
-}
+    padding: 2rem;
 
-.card{
-    background: linear-gradient(0deg, rgb(139, 156, 202) 0%, #4b407e 100%);
-}
-
-/*la foto*/
-.miembros img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-/*El titulo*/
-h1{
-    font-size: 3rem;
-    margin-bottom: 30px;
-    padding: 20px;
-    color: #ffffff;  
-}
-
-/*El rol y las descripciones*/
-h2,h3,p {
-    margin: 20px;
-    color: #ffffff;
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
-    .miembros{
-        grid-template-columns: repeat( 2 ,1fr );
+    .card{
+        background: rgba(0, 0, 0, 0.9);
+    }
+    .card-title, .card-subtitle, .card-text, h1{
+        padding: 1rem;
+        background: linear-gradient(rgb(64, 51, 124),rgb(108, 134, 208));
+        -webkit-background-clip: text;
+        background-clip: text;       
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+    img{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
     }
 }
