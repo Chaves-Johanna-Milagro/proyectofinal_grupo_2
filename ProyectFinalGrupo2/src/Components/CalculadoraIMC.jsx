@@ -31,7 +31,7 @@ function CalculadoraIMC() {
 
     return (
         <Container className="calculadora mt-5">
-            <h1 className="text-center mb-4">Calculadora del Índice de Masa Corporal (IMC)</h1>
+            <h1 className="text-white text-center mb-4">Calculadora del Índice de Masa Corporal (IMC)</h1>
             <Form>
                 <Row>
                     <Col md={6}>
@@ -62,7 +62,7 @@ function CalculadoraIMC() {
                     <Form.Control
                         type="number"
                         value={peso}
-                        onChange={(e) => setPeso(parseFloat(e.target.value))}
+                        onChange={(e) => setPeso(e.target.value)}
                         placeholder="Ej: 70.5"
                     />
                 </Form.Group>
@@ -71,7 +71,7 @@ function CalculadoraIMC() {
                     <Form.Control
                         type="number"
                         value={altura}
-                        onChange={(e) => setAltura(parseFloat(e.target.value))}
+                        onChange={(e) => setAltura(e.target.value)}
                         placeholder="Ej: 1.75"
                     />
                 </Form.Group>
@@ -79,9 +79,9 @@ function CalculadoraIMC() {
             </Form>
             {imc && (
                 <div className="resultado text-center mt-4">
-                    <p><strong>Paciente:</strong> {apellido} {nombre}</p>
-                    <p><strong>IMC:</strong> {imc}</p>
-                    <p><strong>Nivel de peso:</strong> {nivelPeso}</p>
+                    <p className='text-white'><strong>Paciente:</strong> {apellido} {nombre}</p>
+                    <p className='text-white'><strong>IMC:</strong> {imc}</p>
+                    <p className='text-white'><strong>Nivel de peso:</strong> {nivelPeso}</p>
                 </div>
             )}
         </Container>
