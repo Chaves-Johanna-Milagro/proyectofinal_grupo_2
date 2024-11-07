@@ -5,7 +5,7 @@ import Layout from './Components/Layout';
 import Home from './Components/Home';
 import AboutUs from './Components/AboutUs';
 import CalculadoraIMC from './Components/CalculadoraIMC';
-import GestorBilleteraVirtual from './Components/GestorBilleteraVirtual';
+import GestorBilleteraVirtual from './Components/GestorBilleteraVirtual/GestorBilleteraVirtual';
 import JuegoPhaser from './Components/JuegoPhaser';
 import JuegoReact from './Components/desafioMatematico/JuegoReact';
 import ErrorPage from './Components/ErrorPage';
