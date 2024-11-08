@@ -7,11 +7,15 @@ class Play extends Phaser.Scene {
         this.bala = null;
         this.cursors = null;
         this.puntaje=0;
+        this.jugadorVida = 3;
+        this.vidas = null;
+        this.controlExplosion = null;
     }
 
     init(data) {
         
-        this.puntaje = data.puntaje || 0;;
+        this.puntaje = data.puntaje || 0;
+        this.jugadorVida = data.jugadorVida || 3;
     }
 
     preload() {
@@ -21,6 +25,9 @@ class Play extends Phaser.Scene {
         this.load.image('asteroide', '../public/resources/img/asteroide.png');
         this.load.audio('playAudio', '../public/resources/audio/play.mp3');
         this.load.image('balaVertical', '../public/resources/img/balaVertical.png ')
+        this.load.spritesheet('vidas', '../public/resources/img/vidas.png', { frameWidth: 127, frameHeight: 40 });
+        this.load.spritesheet('explosion', '../public/resources/img/explosion.png', {frameWidth:32, frameHeight:32});
+
         
         this.load.spritesheet({
             	key:'nave',
@@ -34,6 +41,28 @@ class Play extends Phaser.Scene {
 					}
 				});
     }
+    
+    controlJugador(){
+		
+        if (this.cursors.left.isDown) {
+          //  this.jugador.setVelocityX(-300);
+            this.jugador.setVelocityX(-300);
+            this.jugador.anims.play('izquierda', true);
+        } 
+        else if (this.cursors.right.isDown) {
+            this.jugador.setVelocityX(300);
+            this.jugador.anims.play('derecha', true);
+        };
+        if (this.cursors.up.isDown) {
+            this.jugador.setVelocityY(-300);
+            
+        }
+        else if (this.cursors.down.isDown) {
+            this.jugador.setVelocityY(300);
+            
+        };
+	
+	}
 
     generarMeteoros() {
         const x = Phaser.Math.Between(0, 800);
@@ -41,14 +70,23 @@ class Play extends Phaser.Scene {
         meteoro.setVelocityY(200);
     }
     
+       
     destruirMeteoro(bala,meteoro){
         bala.destroy();
-        meteoro.destroy();
+        meteoro.physics.body(null);
+        meteoro.setTexture('explosion');
+        meteoro.play('explosion');
+        //enemigo.destroy();
+        this.puntaje +=5;
+        this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+        this.time.delayedCall(50, meteoro.destroy(), [], this);
+        
+        //meteoro.destroy();
     }
 
-    gameOver(jugador) {
+    gameOver() {
         this.physics.pause();
-        jugador.setTint(0xff0000);
+        this.jugador.setTint(0xff0000);
         console.log('Game Over');
         this.playAudio.stop();
         this.scene.start('GameOver', { puntaje: this.puntaje });
@@ -57,8 +95,32 @@ class Play extends Phaser.Scene {
     bonusTrack() {
         
         this.playAudio.stop();
-        this.scene.start('BonusTrack', { puntaje: this.puntaje });
+        this.scene.start('BonusTrack', { puntaje: this.puntaje, jugadorVida: this.jugadorVida });
     }
+    
+    dispararRayo(){
+		this.bala = this.physics.add.image(this.jugador.x, this.jugador.y-20, 'balaVertical');
+            this.bala.setVelocityY(-600);
+	}
+	
+	quitarVida(jugador, enemigo, meteoro,balaJefe){
+        enemigo.destroy();
+        this.jugadorVida -= 1;
+        console.log(this.jugadorVida);
+    }
+    
+    destruirMeteoro(bala,meteoro){
+        bala.destroy();
+        meteoro.setTexture('explosion');
+        meteoro.play('explosion');
+        //enemigo.destroy();
+        this.puntaje +=5;
+        this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+        //this.time.delayedCall(50, meteoro.destroy(), [], this);
+        
+        //meteoro.destroy();
+    }
+	
 
 
     create() {
@@ -72,6 +134,8 @@ class Play extends Phaser.Scene {
             loop: true
         };
         this.playAudio.play(soundConfig);
+        
+        this.vidas = this.add.sprite(73,570,'vidas',0);
 
         //creacion jugador
         this.jugador = this.physics.add.sprite(400, 550, 'nave', 1);
@@ -88,7 +152,7 @@ class Play extends Phaser.Scene {
         
     
         //control colision
-        this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
+        this.physics.add.collider(this.jugador, this.grupoMeteoros, this.quitarVida, null, this);
         
 
         //creacion meteoro para ingresar al bonus
@@ -123,6 +187,33 @@ class Play extends Phaser.Scene {
             
         });
         
+        //muestra de la vida
+        this.anims.create({
+            key: '3',
+            frames: [{ key: 'vidas', frame: 0 }],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: '2',
+            frames: [{ key: 'vidas', frame: 1 }],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: '1',
+            frames: [{ key: 'vidas', frame: 2 }],
+            frameRate: 20
+        });
+        
+         //animación de explosión
+        this.anims.create({
+            key: 'explosion',
+            frames: this.anims.generateFrameNumbers('explosion', {start:0, end:4}),
+            frameRate: 10,
+            repeat: 0,
+            hideOnComplete: true,
+            destroyOnComplete: true
+            });
+        
 			
 
         //utilizado para acceder a la Play02
@@ -133,29 +224,35 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+		
+		 if(this.jugadorVida==0){
+            this.gameOver();
+            }
+            
+         else{
+			 
+			  //control vida jugador
+        if(this.jugadorVida==3){
+            this.vidas.anims.play('3', true);
+        } 
+        if(this.jugadorVida==2){
+            this.vidas.anims.play('2', true);
+        }  
+        if(this.jugadorVida==1){
+            this.vidas.anims.play('1', true);
+        }
+		
         //controles del jugador
         this.jugador.setVelocityX(0);
         this.jugador.setVelocityY(0);
         this.jugador.anims.play('normal', true);
 
-        if (this.cursors.left.isDown) {
-            this.jugador.setVelocityX(-300);
-            this.jugador.anims.play('izquierda', true);
-        } 
-        else if (this.cursors.right.isDown) {
-            this.jugador.setVelocityX(300);
-            this.jugador.anims.play('derecha', true);
-        }
-        else if (this.cursors.up.isDown) {
-            this.jugador.setVelocityY(-300);
-        }
-        else if (this.cursors.down.isDown) {
-            this.jugador.setVelocityY(300);
-        }
+		this.controlJugador();
+       
+      
         
-        if(this.cursors.z.isDown){
-			this.bala = this.physics.add.image(this.jugador.x, this.jugador.y - 20, 'balaVertical');
-            this.bala.setVelocityY(-600);
+        if(Phaser.Input.Keyboard.JustDown(this.cursors.z)){
+			this.dispararRayo();
 
             this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
             
@@ -171,9 +268,10 @@ class Play extends Phaser.Scene {
 
         if (this.puntaje >= 2000){
             this.playAudio.stop();
-            this.scene.start('Play02', { puntaje: this.puntaje });
+            this.scene.start('Play02', { puntaje: this.puntaje, jugadorVida: this.jugadorVida });
         }
     }
+}
 }
 
 export default Play;

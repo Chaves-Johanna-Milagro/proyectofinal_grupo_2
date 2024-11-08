@@ -1,7 +1,7 @@
 import React from "react";
 import aboutUsData from '../data/AboutUs.json';//seria como crear una variable o una referencia que contiene al json
 import {  Card, Row, Col, Image } from 'react-bootstrap';
-import '../../public/styles/aboutUs.css';
+import '../../public/styles/AboutUs.css';
 
 function AboutUs(){
     return (

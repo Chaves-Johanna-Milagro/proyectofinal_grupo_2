@@ -5,17 +5,21 @@ class Play02 extends Phaser.Scene{
     constructor(){
         super("Play02");
         this.jugador = null;
-        this.jugadorVida = 3;
+        this.jugadorVida = null;
         this.vidas = null;
         this.cursors = null;
         this.fireBall = null;
         this.boss = null;
+        this.enemigo = null;
         this.bossLife = 300;
         this.controlBossColision = null;
+        this.intervalo=0;
     }
      init(data) {
         //this.puntaje = data.puntaje || 0; 
         this.puntaje = data.puntaje; 
+        this.jugadorVida=data.jugadorVida;
+        console.log(this.jugadorVida);
     }
 
     preload(){
@@ -38,8 +42,30 @@ class Play02 extends Phaser.Scene{
         this.load.image('enemigo', '../public/resources/img/enemigo.png');
         this.load.image('meteoro', '../public/resources/img/meteoro.png');
 
-        this.load.spritesheet('boss', '../public/resources/img/boss.png', { frameWidth: 190, frameHeight: 560 })
+        this.load.spritesheet('boss', '../public/resources/img/boss.png', { frameWidth: 190, frameHeight: 560 });
+        
+        this.load.spritesheet('explosion', '../public/resources/img/explosion.png', {frameWidth:32, frameHeight:32});
     }
+    
+    controlJugador(){
+		
+        if (this.cursors.left.isDown) {
+          //  this.jugador.setVelocityX(-300);
+            this.jugador.setVelocityX(-300);
+        } 
+        else if (this.cursors.right.isDown) {
+            this.jugador.setVelocityX(300);
+        };
+        if (this.cursors.up.isDown) {
+            this.jugador.setVelocityY(-300);
+            this.jugador.anims.play('down', true);
+        }
+        else if (this.cursors.down.isDown) {
+            this.jugador.setVelocityY(300);
+            this.jugador.anims.play('up', true);
+        };
+	
+	}
 
     generarEnemigos() {
         const y = Phaser.Math.Between(0, 600);
@@ -49,20 +75,22 @@ class Play02 extends Phaser.Scene{
 
     eliminarEnemigo(bala,enemigo){
         bala.destroy();
-        enemigo.destroy();
+        enemigo.setTexture('explosion');
+        enemigo.play('explosion');
+        //enemigo.destroy();
         this.puntaje +=10;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
 
     }
 
-    quitarVida(enemigo){
+    quitarVida(jugador, enemigo, meteoro, balaJefe, balaEnemigo){
         enemigo.destroy();
         this.jugadorVida -= 1;
         console.log(this.jugadorVida);
     }
     gameOver(jugador) {
         this.physics.pause();
-        jugador.setTint(0xff0000);
+        this.jugador.setTint(0xff0000);
         console.log('Game Over');
         this.bossAudio.stop();
         this.scene.start('GameOver', { puntaje: this.puntaje });
@@ -76,10 +104,10 @@ class Play02 extends Phaser.Scene{
         this.boss.setVelocityX(-100);
     }
 
-    danarBoss(bala){
+    danarBoss(bala,boss,jugador){
         bala.destroy();
         
-        this.bossLife -= 1;
+        this.bossLife -= 5;
         this.puntaje +=1;
         
         this.textoDeJefe.setText('BOSS: ' + this.bossLife);
@@ -97,8 +125,45 @@ class Play02 extends Phaser.Scene{
     }
     destruirMeteoro(bala,meteoro){
         bala.destroy();
-        meteoro.destroy();
+        
+        meteoro.setTexture('explosion');
+        meteoro.play('explosion');
+        //enemigo.destroy();
+        this.puntaje +=5;
+        this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+        this.time.delayedCall(50, meteoro.destroy(), [], this);
+        
+        //meteoro.destroy();
     }
+    
+    generarBalaJefe() {
+		
+        const y = Phaser.Math.Between(280,320 );
+        //const bala = this.grupoMeteoros.create(this.boss.x, y, 'meteoro');
+       // meteoro.setVelocityY(Phaser.Math.Between(-200,200));
+      			
+		const x = Phaser.Math.Between(0, 800);
+        const balaJefe = this.grupoBalaJefe.create(this.boss.x-10,this.boss.y-50, 'balaHorizontal');
+
+        balaJefe.setVelocityY(Phaser.Math.Between(-300, 300));
+        
+        balaJefe.setVelocityX(-600);
+        
+              
+	}
+	
+	generarBalaEnemigo() {
+		
+        const y = Phaser.Math.Between(280,320 );
+   		const x = Phaser.Math.Between(0, 800);
+        const balaEnemigo = this.grupoBalaEnemigo.create(this.enemigo.x-10, this.enemigo.y, 'balaHorizontal');
+
+        balaEnemigo.setVelocityY(Phaser.Math.Between(-300, 300));
+        
+        balaEnemigo.setVelocityX(-600);
+        
+              
+	}
     
     
     victoria() {
@@ -107,6 +172,24 @@ class Play02 extends Phaser.Scene{
         this.sound.stopAll();
         this.scene.start('Victoria', { puntaje: this.puntaje });
 
+    }
+    
+    dispararRayo(){
+		this.bala = this.physics.add.image(this.jugador.x + 20, this.jugador.y, 'balaHorizontal');
+            this.bala.setVelocityX(600);
+	}
+	
+	init(data) {
+        
+        this.puntaje = data.puntaje || 0;
+        this.jugador = null;
+        this.jugadorVida = data.jugadorVida;
+        this.vidas = null;
+        this.cursors = null;
+        this.fireBall = null;
+        this.boss = null;
+        this.bossLife = 300;
+        this.controlBossColision = null;
     }
 			
 			
@@ -140,9 +223,15 @@ class Play02 extends Phaser.Scene{
         //creacion enemigos
         this.grupoEnemigos = this.physics.add.group();
         this.time.addEvent({ delay: 1000, callback: this.generarEnemigos, callbackScope: this, loop: true });
+        
+        this.grupoBalaJefe = this.physics.add.group();
+        this.grupoBalaEnemigo = this.physics.add.group();
+        
+
 
         //control colision
         this.physics.add.collider(this.jugador, this.grupoEnemigos, this.quitarVida, null, this);
+        this.physics.add.collider(this.jugador, this.grupoBalaEnemigo, this.quitarVida, null, this);
 
         //animacion del jugador
         this.anims.create({
@@ -177,10 +266,23 @@ class Play02 extends Phaser.Scene{
             frames: [{ key: 'vidas', frame: 2 }],
             frameRate: 20
         });
+        
+        
+        //animación de explosión
+        this.anims.create({
+            key: 'explosion',
+            frames: this.anims.generateFrameNumbers('explosion', {start:0, end:4}),
+            frameRate: 10,
+            repeat: 0,
+            hideOnComplete: true,
+            destroyOnComplete: true
+            });
 
 
         //boss
-        this.boss = this.physics.add.sprite(900, 900, 'boss', 0);
+        this.boss = this.physics.add.sprite(1900, 1900, 'boss', 0);
+        this.enemigo = this.physics.add.sprite(1900, 1900, 'boss', 0);
+        
     
             //animacion
         this.anims.create({
@@ -193,15 +295,44 @@ class Play02 extends Phaser.Scene{
 
         //el delay se cambiara a 3000 para q el boss aparezca 30 seg despues de entrar al nivel, esta en 500 para testear
         this.time.addEvent({ delay: 20000, callback: this.mostrarBoss, callbackScope: this, loop: false });
+        
+        this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
+        this.time.addEvent({ delay: 600, callback: this.generarBalaEnemigo, callbackScope: this, loop: true });
+        
 
         //conteo para aparicion de obstaculos en vertical
-        this.time.addEvent({ delay: 60000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
+        this.time.addEvent({ delay: 30000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
+        
+        //this.time.addEvent({ delay: 50, callback: this.generarBalaJefe, callbackScope: this, loop: true });
+        
     }
 
     update(){
+		
+		 if(this.jugadorVida==0){
+            this.gameOver();
+            }
+            
+         else{
+			 
+			 
         //mueve las imagenes hace la izquierda
         this.fondoLayer01.x -= 2;
         this.fondoLayer02.x -= 2;
+        
+        
+         //control vida jugador
+        if(this.jugadorVida==3){
+            this.vidas.anims.play('3', true);
+        } 
+        if(this.jugadorVida==2){
+            this.vidas.anims.play('2', true);
+        }  
+        if(this.jugadorVida==1){
+            this.vidas.anims.play('1', true);
+        }
+        
+      
 
         //reposiciona las imagenes si salen de la pantalla
         if(this.fondoLayer01.x <= -780){
@@ -215,45 +346,23 @@ class Play02 extends Phaser.Scene{
         this.jugador.setVelocityX(0);
         this.jugador.setVelocityY(0);
         this.jugador.anims.play('default', true);
-
-        if (this.cursors.left.isDown) {
-            this.jugador.setVelocityX(-300);
-        } 
-        else if (this.cursors.right.isDown) {
-            this.jugador.setVelocityX(300);
-        }
-        else if (this.cursors.up.isDown) {
-            this.jugador.setVelocityY(-300);
-            this.jugador.anims.play('down', true);
-        }
-        else if (this.cursors.down.isDown) {
-            this.jugador.setVelocityY(300);
-            this.jugador.anims.play('up', true);
-        }
         
-        if(this.cursors.z.isDown){
-            this.bala = this.physics.add.image(this.jugador.x + 20, this.jugador.y, 'balaHorizontal');
-            this.bala.setVelocityX(600);
+        this.controlJugador();
+
+                
+        if(Phaser.Input.Keyboard.JustDown(this.cursors.z)){
+			this.dispararRayo();
+            
 
             //this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
 
-        //control vida jugador
-        if(this.jugadorVida==3){
-            this.vidas.anims.play('3', true);
-        } 
-        if(this.jugadorVida==2){
-            this.vidas.anims.play('2', true);
-        }  
-        if(this.jugadorVida==1){
-            this.vidas.anims.play('1', true);
-        }
-        if(this.jugadorVida==0){
-            this.gameOver();
-        }   
-
+        
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
             this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
+            this.physics.add.collider(this.jugador, this.grupoBalaJefe,this.quitarVida, null, this);
+            this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);
+            this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
             
 
             //destruye la bala cuando sale de la pantalla para que no ocupe memoria
@@ -274,15 +383,19 @@ class Play02 extends Phaser.Scene{
         if (this.controlBossColision == true){
             this.physics.add.collider(this.bala, this.boss, this.danarBoss, null, this);
             this.physics.add.collider(this.jugador, this.boss, this.gameOver, null, this);
+           
+            
+            
+            
         }
         
-        
-        
+     
         if (this.bossLife <= 0){
 			
 		console.log('Gano');
 		this.victoria();
 		}
+	}
 
         
     }
