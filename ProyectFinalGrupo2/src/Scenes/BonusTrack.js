@@ -10,10 +10,14 @@ class BonusTrack extends Phaser.Scene {
         this.puntaje = 0; 
         this.textoDePuntaje = null;
         this.timer = null;
+        this.jugadorVida = null;
+        this.vidas=null;
+
     }
 
     init(data) {
         this.puntaje = data.puntaje || 0; 
+        this.jugadorVida=data.jugadorVida;
     }
 
     preload() {
@@ -37,11 +41,19 @@ class BonusTrack extends Phaser.Scene {
         this.puntaje += 500; 
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
     }
+    
+    vidaExtra(){
+		if(this.puntaje > 2500 && this.jugadorVida < 3){
+			this.jugadorVida += 1;
+		}
+		
+	}
 
     endBonusTrack() {
         this.bonusAudio.stop();
+        this.vidaExtra();
         
-        this.scene.start('Play', { puntaje: this.puntaje });
+        this.scene.start('Play', { puntaje: this.puntaje, jugadorVida: this.jugadorVida	 });
     }
 
     animacionPlayer() {
@@ -75,6 +87,8 @@ class BonusTrack extends Phaser.Scene {
         this.bonusAudio = this.sound.add('bonusAudio');
         const soundConfig = { volume: 1, loop: true };
         this.bonusAudio.play(soundConfig);
+        
+        this.vidas = this.add.sprite(73,570,'vidas',0);
 
         this.jugador = this.physics.add.sprite(400, 550, 'nave', 1);
         this.jugador.setCollideWorldBounds(true);
@@ -87,18 +101,43 @@ class BonusTrack extends Phaser.Scene {
         this.physics.add.collider(this.jugador, this.grupoMonedas, this.collectCoin, null, this);
 
         this.textoDePuntaje = this.add.text(16, 16, 'Puntaje: ' + this.puntaje, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
+        
+        
+        
 
      
-        this.time.delayedCall(10000, this.endBonusTrack, [], this);
+        this.time.delayedCall(8000, this.endBonusTrack, [], this);
 
     }
 
     
 
     update() {
+		
+		 if(this.jugadorVida==0){
+            this.gameOver();
+            }
+            
+         else{
+			 
+			 
+			  //control vida jugador
+        if(this.jugadorVida==3){
+            this.vidas.anims.play('3', true);
+        } 
+        if(this.jugadorVida==2){
+            this.vidas.anims.play('2', true);
+        }  
+        if(this.jugadorVida==1){
+            this.vidas.anims.play('1', true);
+        };
+        
+       
         this.jugador.setVelocityX(0);
         this.jugador.setVelocityY(0);
         this.jugador.anims.play('normal', true);
+        
+        
 
         if (this.cursors.left.isDown) {
             this.jugador.setVelocityX(-300);
@@ -115,7 +154,8 @@ class BonusTrack extends Phaser.Scene {
             this.jugador.setVelocityY(300);
         }
 
-        
+}
+
     }
 }
 
