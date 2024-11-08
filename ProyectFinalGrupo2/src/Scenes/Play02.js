@@ -37,7 +37,9 @@ class Play02 extends Phaser.Scene{
         this.load.spritesheet('nave02', '../public/resources/img/spritenave02.png', { frameWidth: 50, frameHeight: 46 });
         this.load.image('balaHorizontal', '../public/resources/img/balaHorizontal.png ')
         this.load.spritesheet('vidas', '../public/resources/img/vidas.png', { frameWidth: 127, frameHeight: 40 });
-        
+
+        this.load.image('vidaExtra', '../public/resources/img/vidaExtra.png');
+
         //enemigo y meteoro
         this.load.image('enemigo', '../public/resources/img/enemigo.png');
         this.load.image('meteoro', '../public/resources/img/meteoro.png');
@@ -88,6 +90,21 @@ class Play02 extends Phaser.Scene{
         this.jugadorVida -= 1;
         console.log(this.jugadorVida);
     }
+
+    generarVidas(){
+        const y = Phaser.Math.Between(0, 600);
+        const vida = this.grupoVidas.create(this.sys.game.config.width, y, 'vidaExtra');
+        vida.setVelocityX(-200);        
+    }
+    agregarVida(jugador, vida){
+        vida.destroy();
+        this.jugadorVida += 1;
+        if (this.jugadorVida >3){
+            this.jugadorVida=3;
+        }
+        console.log(this.jugadorVida);
+    }
+
     gameOver(jugador) {
         this.physics.pause();
         this.jugador.setTint(0xff0000);
@@ -102,6 +119,9 @@ class Play02 extends Phaser.Scene{
         this.textoDeJefe = this.add.text(16, 50, 'BOSS: ' + this.bossLife, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         //el boss entra lentamente a la pantalla, seguramente hay una forma menos tosca de hacerlo pero es lo q se me ocurrio xd
         this.boss.setVelocityX(-100);
+        this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
+
+        this.time.addEvent({ delay: 10000, callback: this.generarVidas, callbackScope: this, loop: true });
     }
 
     danarBoss(bala,boss,jugador){
@@ -216,6 +236,10 @@ class Play02 extends Phaser.Scene{
 
         this.vidas = this.add.sprite(73,570,'vidas',0);
 
+        //creacion vidas extra
+        this.grupoVidas = this.physics.add.group();
+        this.physics.add.collider(this.jugador, this.grupoVidas,this.agregarVida, null, this);
+
         //creacion de los inputs
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors.z = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
@@ -293,15 +317,15 @@ class Play02 extends Phaser.Scene{
         });
         this.boss.anims.play('defaultBoss', true);
 
-        //el delay se cambiara a 3000 para q el boss aparezca 30 seg despues de entrar al nivel, esta en 500 para testear
+        //el boss aparece luego de 20 seg
         this.time.addEvent({ delay: 20000, callback: this.mostrarBoss, callbackScope: this, loop: false });
         
-        this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
+        
         this.time.addEvent({ delay: 600, callback: this.generarBalaEnemigo, callbackScope: this, loop: true });
         
 
         //conteo para aparicion de obstaculos en vertical
-        this.time.addEvent({ delay: 30000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
+        this.time.addEvent({ delay: 60000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
         
         //this.time.addEvent({ delay: 50, callback: this.generarBalaJefe, callbackScope: this, loop: true });
         
@@ -363,6 +387,8 @@ class Play02 extends Phaser.Scene{
             this.physics.add.collider(this.jugador, this.grupoBalaJefe,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
+
+            
             
 
             //destruye la bala cuando sale de la pantalla para que no ocupe memoria
