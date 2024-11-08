@@ -23,7 +23,7 @@ class BonusTrack extends Phaser.Scene {
     preload() {
         this.load.image('espacio', '../public/resources/img/espacio.jpg');
         this.load.spritesheet('nave', '../public/resources/img/spritenaveB.png', { frameWidth: 50, frameHeight: 46 });
-        this.load.spritesheet('moneda', '../public/resources/img/monedas.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('moneda', '../public/resources/img/monedas32.png', { frameWidth: 32, frameHeight: 32 });
         this.load.audio('bonusAudio', '../public/resources/audio/bonus.mp3');
         this.cursors = this.input.keyboard.createCursorKeys();
     }

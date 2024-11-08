@@ -102,6 +102,7 @@ class Play02 extends Phaser.Scene{
         this.textoDeJefe = this.add.text(16, 50, 'BOSS: ' + this.bossLife, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         //el boss entra lentamente a la pantalla, seguramente hay una forma menos tosca de hacerlo pero es lo q se me ocurrio xd
         this.boss.setVelocityX(-100);
+        this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
     }
 
     danarBoss(bala,boss,jugador){
@@ -293,15 +294,15 @@ class Play02 extends Phaser.Scene{
         });
         this.boss.anims.play('defaultBoss', true);
 
-        //el delay se cambiara a 3000 para q el boss aparezca 30 seg despues de entrar al nivel, esta en 500 para testear
+        //el boss aparece luego de 20 seg
         this.time.addEvent({ delay: 20000, callback: this.mostrarBoss, callbackScope: this, loop: false });
         
-        this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
+        
         this.time.addEvent({ delay: 600, callback: this.generarBalaEnemigo, callbackScope: this, loop: true });
         
 
         //conteo para aparicion de obstaculos en vertical
-        this.time.addEvent({ delay: 30000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
+        this.time.addEvent({ delay: 60000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
         
         //this.time.addEvent({ delay: 50, callback: this.generarBalaJefe, callbackScope: this, loop: true });
         
