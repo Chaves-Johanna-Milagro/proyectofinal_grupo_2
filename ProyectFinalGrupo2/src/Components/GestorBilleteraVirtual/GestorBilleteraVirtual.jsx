@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button, Form, Container, Row, Col, Alert } from "react-bootstrap";
 import ListaBilleteras from "./ListaBilleteras"; // Importa el componente para mostrar billeteras
 import MaxTransacciones from "./MaxTransacciones"; // Importa el componente para mostrar las transacciones máximas
 
@@ -56,51 +57,68 @@ function GestorBilleteraVirtual() {
   };
 
   return (
-    <>
-      <h1>Gestor de Transacciones en Billeteras Virtuales</h1>
-      <div>
-        <div>
-          <label>Nombre de usuario</label>
-          <input
-            type="text"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)} />
-        </div>
+    <Container>
+      <h1 className="my-4 text-center">Gestor de Transacciones en Billeteras Virtuales</h1>
+      <Form>
+  
+        <Row className="mb-4">
+          <Col md={6}>
+            <Form.Group controlId="formNombre">
+              <Form.Label>Nombre de usuario</Form.Label>
+              <Form.Control
+                type="text"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)} />
+            </Form.Group>
 
-        <div>
-          <label>Billetera virtual</label>
-          <input
-            type="text"
-            value={billetera}
-            onChange={(e) => setBilletera(e.target.value)} />
-        </div>
+            <Form.Group controlId="formBilletera">
+              <Form.Label>Billetera virtual</Form.Label>
+              <Form.Control
+                type="text"
+                value={billetera}
+                onChange={(e) => setBilletera(e.target.value)} />
+            </Form.Group>   
 
-        <div>
-          <label>Numero de transacciones realizadas</label>
-          <input
-            type="number"
-            value={numTransac}
-            onChange={(e) => setNumTransac(Number(e.target.value))} />
-        </div>
+            <Form.Group controlId="formNumTransac">
+              <Form.Label>Numero de transacciones realizadas</Form.Label>
+              <Form.Control
+                type="number"
+                value={numTransac}
+                onChange={(e) => setNumTransac(Number(e.target.value))} />
+            </Form.Group>  
 
-        <button onClick={registrar}>Registrar</button>
-      </div>
+          </Col>
+        </Row>
 
-      {/* Botones para mostrar las listas */}
-      <div>
-        <button onClick={() => setMostrarBilleteras(!mostrarBilleteras)}>
-          {mostrarBilleteras ? "Ocultar Billeteras Registradas" : "Mostrar Billeteras Registradas"}
-        </button>
+        <Row className="mb-4">
+          <Col md={5}>
+           <Button variant="primary" onClick={registrar}>Registrar</Button>
 
-        <button onClick={() => setMostrarMaxTransac(!mostrarMaxTransac)}>
-          {mostrarMaxTransac ? "Ocultar Mayor Cantidad de Transacciones" : "Mostrar Mayor Cantidad de Transacciones"}
-        </button>
-      </div>
+           <Button
+           variant={mostrarBilleteras ? "danger" : "success"}
+           onClick={() => setMostrarBilleteras(!mostrarBilleteras)}>
+           {mostrarBilleteras ? "Ocultar Billeteras Registradas" : "Mostrar Billeteras Registradas"}
+           </Button>
+
+           <Button
+           variant={mostrarMaxTransac ? "danger" : "info"}
+           onClick={() => setMostrarMaxTransac(!mostrarMaxTransac)}
+           className="ms-2">
+           {mostrarMaxTransac ? "Ocultar Mayor Cantidad de Transacciones" : "Mostrar Mayor Cantidad de Transacciones"}
+           </Button>
+
+          </Col>
+        </Row>
+      </Form>
+
+      
 
       {/* Mostrar las listas según el estado */}
       {mostrarBilleteras && <ListaBilleteras regBilletera={regBilletera} />}
       {mostrarMaxTransac && <MaxTransacciones maxTransacciones={getMaxTransac()} />}
-    </>
+
+      
+    </Container>
   );
 }
 

@@ -1,0 +1,30 @@
+.pantallaInicio{
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-image: url('../../public/img/DFInicio.png'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Escala la imagen para cubrir todo el contenedor */
+    background-position: center center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que se repita la imagen */
+
+    h1{
+        text-align: center;
+        font-size: 5rem;
+        background: linear-gradient(rgb(87, 71, 208),rgb(122, 202, 255));
+        -webkit-background-clip: text;
+        background-clip: text;       
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        font-style: italic;
+        font-weight: bold;
+    }
+    p{
+        padding-top: 2rem;
+        padding-bottom: 0;
+        text-align: center;
+        font-size: 1.5rem;
+        color: rgb(70, 70, 197);
+        font-weight: bold;
+    }
+    Button{
+        background: linear-gradient(rgb(87, 71, 208),rgb(122, 202, 255));
+    }
+}
