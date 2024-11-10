@@ -1,8 +1,6 @@
 import { useEffect } from "react";
-import '../../public/styles/Phaser.css';
 
 import Phaser from 'phaser';
-import { Scale } from 'phaser';
 
 import Menu from '../Scenes/Menu';
 import Play from '../Scenes/Play';

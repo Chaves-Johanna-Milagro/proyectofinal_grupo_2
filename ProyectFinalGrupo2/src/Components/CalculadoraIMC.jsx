@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
+import { Card, Form, Button, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../public/styles/Style.css';
 
@@ -30,9 +30,10 @@ function CalculadoraIMC() {
     };
 
     return (
-        <Container className="calculadora mt-5">
+        <section className="p-4">
+            <Card className="p-5" style={{backgroundColor: 'rgba(0,0,0,0.8)'}} >
             <h1 className="text-white text-center mb-4">Calculadora del Índice de Masa Corporal (IMC)</h1>
-            <Form>
+            <Form className='text-white'>
                 <Row>
                     <Col md={6}>
                         <Form.Group>
@@ -78,13 +79,15 @@ function CalculadoraIMC() {
                 <Button className="w-100 mt-3" onClick={calcularIMC}>Calcular IMC</Button>
             </Form>
             {imc && (
-                <div className="resultado text-center mt-4">
-                    <p className='text-white'><strong>Paciente:</strong> {apellido} {nombre}</p>
-                    <p className='text-white'><strong>IMC:</strong> {imc}</p>
-                    <p className='text-white'><strong>Nivel de peso:</strong> {nivelPeso}</p>
+                <div className="text-white text-center mt-4">
+                    <p><strong>Paciente:</strong> {apellido} {nombre}</p>
+                    <p><strong>IMC:</strong> {imc}</p>
+                    <p><strong>Nivel de peso:</strong> {nivelPeso}</p>
                 </div>
             )}
-        </Container>
+           </Card>
+        </section>
+        
     );
 }
 

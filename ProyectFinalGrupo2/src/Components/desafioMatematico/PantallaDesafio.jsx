@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Card,Row, Col,Form,Button } from 'react-bootstrap';
+import '../../../public/styles/DesafioMatematico.css';
 
 function PantallaDesafio({ nivel, mostrarPantallaLogro, mostrarPantallaDerrota }) {
     const [num1, setNum1] = useState(0);
@@ -21,6 +23,11 @@ function PantallaDesafio({ nivel, mostrarPantallaLogro, mostrarPantallaDerrota }
                 newNum1 = Math.floor(Math.random() * 10) + 1;
                 newNum2 = Math.floor(Math.random() * 10) + 1;
                 newOperador = Math.random() < 0.5 ? '+' : '-';
+
+                // evita que el resultado sea un número negativo
+                if (newOperador === '-' && newNum1 < newNum2) {
+                    newOperador = '+'; // Cambia a suma si la resta es negativa
+                }
                 break;
             case 'intermedio':
                 newNum1 = Math.floor(Math.random() * 12) + 1;
@@ -71,18 +78,33 @@ function PantallaDesafio({ nivel, mostrarPantallaLogro, mostrarPantallaDerrota }
     };
 
     return (
-        <div>
-            <h2>Resuelve el problema:</h2>
-            <h3>{num1} {operador} {num2}</h3>
-            <input
-                value={respuesta}
-                onChange={(e) => setRespuesta(e.target.value)}
-                placeholder="Escriba el resultado"
-            />
-            <button onClick={verificarRespuesta}>Verificar</button>
-            <h3>{resultado}</h3>
-            <h3>Puntaje: {puntaje}</h3>
-            <h3>Ejercicios restantes: {ejercicios}</h3>
+        <div className='pantallaDesafio'>
+            <Card className='card'>
+                
+                <Row className='align-items-center text-white'>       
+                    <Col md={5}>
+                    <h1>Resuelve el problema:</h1>
+                    <h2>{num1} {operador} {num2}</h2>
+
+                    <Form>
+                        <Form.Control
+                         value={respuesta}
+                         onChange={(e) => setRespuesta(e.target.value)}
+                         placeholder="Escriba el resultado">
+                        </Form.Control>
+                    </Form>
+
+                    <Button className='w-100 mt-3' variant='light'
+                     onClick={verificarRespuesta}>Verificar
+                    </Button>
+
+                    <h3>{resultado}</h3>
+                    <h3>Puntaje: {puntaje}</h3>
+                    <h3>Ejercicios restantes: {ejercicios}</h3>
+                    </Col>
+                </Row> 
+                
+            </Card>
         </div>
     );
 }

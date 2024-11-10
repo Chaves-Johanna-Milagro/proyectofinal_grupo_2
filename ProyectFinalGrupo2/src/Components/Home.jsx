@@ -15,7 +15,7 @@ function Home(){
                                 className="img-prin"
                                 src='../../public/img/principal.png'
                                 alt="Imagen principal"
-                                style={{ width: '100%', height: 'auto' }}
+                                style={{ width: '100%', height: 'auto'}}
                             />
                         </Figure>
                     </section>

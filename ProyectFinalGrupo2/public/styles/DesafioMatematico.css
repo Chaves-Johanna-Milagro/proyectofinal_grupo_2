@@ -1,0 +1,86 @@
+.pantallaInicio{
+    padding: 3rem;   
+
+    .card-img{
+        background-image: url('../../public/img/DFFondoInicio.gif');
+        background-position: center;
+        background-size: cover;
+    }
+    h1{
+        text-align: center;
+        font-size: 5rem;
+        background: linear-gradient(rgb(87, 71, 208),rgb(122, 202, 255));
+        -webkit-background-clip: text;
+        background-clip: text;       
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        font-style: italic;
+        font-weight: bold;
+    }
+    p{
+        padding-top: 2rem;
+        padding-bottom: 0;
+        text-align: center;
+        font-size: 1.5rem;
+        color: rgb(107, 131, 229);
+        font-weight: bold;
+    }
+    Button{
+        background: linear-gradient(rgb(87, 71, 208),rgb(122, 202, 255));
+    }
+    Figure{
+        margin-left: 8rem;
+    }
+}
+
+.pantallaDesafio{
+    padding: 3rem;
+    text-align: center;
+
+    .card{
+        /*height: 100vh;*/
+        padding: 2rem;
+        background-image: url('../../public/img/DFFondoDesafio.gif');
+        background-position: center;
+        background-size: cover;
+    }
+
+}
+
+.pantallaDerrota{
+    padding: 3rem;
+
+    h1{
+        font-size: 3rem;
+        margin-top: 5rem;
+        text-align: center;
+        text-shadow: -2px 2px #cbc2c2;
+    }
+
+    .card{
+        padding: 2rem;
+        height: 80vh;
+        background-image: url('../../public/img/DFFondoDerrota.gif');
+        background-position: center;
+        background-size: cover;
+    }
+}
+
+.pantallaLogro{
+    padding: 3rem;
+
+    h1{
+        color: #a76df8;
+        font-size: 3rem;
+        text-align: center;
+        text-shadow: -2px 2px #ffffff;
+    }
+
+    .card{
+        padding: 2rem;
+        height: 80vh;
+        background-image: url('../../public/img/DFFondoLogro.gif');
+        background-position: center;
+        background-size: cover;
+    }
+}

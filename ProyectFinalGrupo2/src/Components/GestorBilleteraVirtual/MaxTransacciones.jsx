@@ -2,8 +2,8 @@ import React from 'react';
 
 function MaxTransacciones({ maxTransacciones }) {
   return (
-    <div>
-      <h2>Billetera con Mayor Cantidad de Transacciones</h2>
+    <div className='text-white'>
+      <h3>Billetera con Mayor Cantidad de Transacciones</h3>
       <ul>
         {maxTransacciones.map((usuario, index) => (
           <li key={index}>

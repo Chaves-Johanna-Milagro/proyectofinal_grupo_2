@@ -1,13 +1,13 @@
 [{
     "id": 1,
-    "photo": "../../public/img/logo.png",
+    "photo": "../../public/img/imagen.png",
    "name": "Castro Jose",
     "rol": "Estudiante",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "github": "colocar su repositorio aqui"
 },{
     "id": 2,
-    "photo": "../../public/img/imagen.jpg",
+    "photo": "../../public/img/johanna.jpg",
     "name":"Chaves Johanna Milagro",
     "rol":"Estudiante",
     "description":"me gustan los gatos, vivo en el monte, fin",
