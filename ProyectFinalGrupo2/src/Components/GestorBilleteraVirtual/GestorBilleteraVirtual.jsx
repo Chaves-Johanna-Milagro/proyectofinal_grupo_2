@@ -7,7 +7,7 @@ function GestorBilleteraVirtual() {
   const [regBilletera, setRegBilletera] = useState([]);
   const [nombre, setNombre] = useState("");
   const [billetera, setBilletera] = useState("");
-  const [numTransac, setNumTransac] = useState(0);
+  const [numTransac, setNumTransac] = useState("");
 
   // Estados para controlar la visibilidad de las listas
   const [mostrarBilleteras, setMostrarBilleteras] = useState(false);
@@ -31,7 +31,7 @@ function GestorBilleteraVirtual() {
 
       setNombre('');
       setBilletera('');
-      setNumTransac(0);
+      setNumTransac('');
     } else {
       alert("Por favor, completa todos los campos correctamente");
     }
