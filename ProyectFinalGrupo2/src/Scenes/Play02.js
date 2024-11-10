@@ -135,7 +135,6 @@ class Play02 extends Phaser.Scene{
     }
 
     obstaculosVertical(){
-        this.grupoMeteoros = this.physics.add.group();
         this.time.addEvent({ delay: 1000, callback: this.generarMeteoros, callbackScope: this, loop: true });
     }
     generarMeteoros() {
@@ -250,6 +249,8 @@ class Play02 extends Phaser.Scene{
         
         this.grupoBalaJefe = this.physics.add.group();
         this.grupoBalaEnemigo = this.physics.add.group();
+
+        this.grupoMeteoros = this.physics.add.group();
         
 
 
@@ -384,9 +385,10 @@ class Play02 extends Phaser.Scene{
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
             this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
+            this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoBalaJefe,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);
-            this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
+            
 
             
             
