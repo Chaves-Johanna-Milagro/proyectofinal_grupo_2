@@ -26,6 +26,7 @@ class Play02 extends Phaser.Scene{
         //son la misma imagen solo que una está volteada para que el layer no se vea cortado
         this.load.image('fondoLayer01','../public/resources/img/fondoLayer01.jpg');
         this.load.image('fondoLayer02','../public/resources/img/fondoLayer02.jpg');
+        //this.load.image('espacio2','../public/resources/img/fondoLayer01.jpg');
 
         //audio
         this.load.audio('bossAudio', '../public/resources/audio/boss.mp3');
@@ -48,6 +49,21 @@ class Play02 extends Phaser.Scene{
         
         this.load.spritesheet('explosion', '../public/resources/img/explosion.png', {frameWidth:32, frameHeight:32});
     }
+    
+    textoLluvia(){
+		this.textoMeteoros = this.add.text(400, 300, '¡Lluvia de meteoritos!', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tfinal=this.tweens.add({
+			targets:this.textoMeteoros,
+			visible: true,
+			alpha: 0,
+			//ease: "Power 3",
+			duration: 3000,
+			onComplete:function(){
+				tfinal.remove();
+			}
+        
+        }); 
+	}
     
     controlJugador(){
 		
@@ -74,6 +90,16 @@ class Play02 extends Phaser.Scene{
         const enemigo = this.grupoEnemigos.create(this.sys.game.config.width, y, 'enemigo');
         enemigo.setVelocityX(-200);
     }
+    
+    generarExplosiones() {
+        const x = Phaser.Math.Between(0, 800);
+        const explosiones = this.grupoExplosiones.create(Phaser.Math.Between(700, 800),Phaser.Math.Between(100, 500), this, 'meteoro');
+        explosiones.play('explosion');
+        explosiones.setVelocityY(Phaser.Math.Between(-200, 200));
+        explosiones.setVelocityX(Phaser.Math.Between(-200, 200));
+        
+        
+    }
 
     eliminarEnemigo(bala,enemigo){
         bala.destroy();
@@ -82,19 +108,25 @@ class Play02 extends Phaser.Scene{
         //enemigo.destroy();
         this.puntaje +=10;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+        this.sound.playAudioSprite('explosiones','explosion2');
 
     }
 
     quitarVida(jugador, enemigo, meteoro, balaJefe, balaEnemigo){
         enemigo.destroy();
         this.jugadorVida -= 1;
+        this.sound.play('choque');
+        this.cameras.main.shake(1000,0.005);
         console.log(this.jugadorVida);
     }
 
     generarVidas(){
+		
         const y = Phaser.Math.Between(0, 600);
         const vida = this.grupoVidas.create(this.sys.game.config.width, y, 'vidaExtra');
-        vida.setVelocityX(-200);        
+        vida.setVelocityX(-200);  
+        
+            
     }
     agregarVida(jugador, vida){
         vida.destroy();
@@ -102,6 +134,7 @@ class Play02 extends Phaser.Scene{
         if (this.jugadorVida >3){
             this.jugadorVida=3;
         }
+        this.sound.play('energia');
         console.log(this.jugadorVida);
     }
 
@@ -122,16 +155,32 @@ class Play02 extends Phaser.Scene{
         this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
 
         this.time.addEvent({ delay: 10000, callback: this.generarVidas, callbackScope: this, loop: true });
+        this.textoVida = this.add.text(400, 300, '¡Aquí viene! ¡Prepárate!', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tfinal=this.tweens.add({
+			targets:this.textoVida,
+			visible: true,
+			alpha: 0,
+			ease: "Power 3",
+			duration: 5000,
+			onComplete:function(){
+				tfinal.remove();
+			}
+        
+        });  
     }
 
     danarBoss(bala,boss,jugador){
         bala.destroy();
+        
+        this.sound.playAudioSprite('explosiones','explosion2');
+        if(this.bossLife>0){
         
         this.bossLife -= 5;
         this.puntaje +=1;
         
         this.textoDeJefe.setText('BOSS: ' + this.bossLife);
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+		}
     }
 
     obstaculosVertical(){
@@ -139,24 +188,27 @@ class Play02 extends Phaser.Scene{
         this.time.addEvent({ delay: 1000, callback: this.generarMeteoros, callbackScope: this, loop: true });
     }
     generarMeteoros() {
+		 
         const x = Phaser.Math.Between(0, 800);
         const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro');
         meteoro.setVelocityY(200);
     }
     destruirMeteoro(bala,meteoro){
         bala.destroy();
-        
+        this.sound.playAudioSprite('explosiones','explosion1');
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
         //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.time.delayedCall(50, meteoro.destroy(), [], this);
+        this.sound.playAudioSprite('explosiones','explosion1');
         
         //meteoro.destroy();
     }
     
     generarBalaJefe() {
+		
 		
         const y = Phaser.Math.Between(280,320 );
         //const bala = this.grupoMeteoros.create(this.boss.x, y, 'meteoro');
@@ -168,6 +220,7 @@ class Play02 extends Phaser.Scene{
         balaJefe.setVelocityY(Phaser.Math.Between(-300, 300));
         
         balaJefe.setVelocityX(-600);
+
         
               
 	}
@@ -197,6 +250,7 @@ class Play02 extends Phaser.Scene{
     dispararRayo(){
 		this.bala = this.physics.add.image(this.jugador.x + 20, this.jugador.y, 'balaHorizontal');
             this.bala.setVelocityX(600);
+            this.sound.playAudioSprite('laser','laser1');
 	}
 	
 	init(data) {
@@ -217,6 +271,8 @@ class Play02 extends Phaser.Scene{
     create(){
 		this.bossLife=300;
         this.controlBossColision = false;
+        //this.espacio2 = this.add.tileSprite(0,0,800,600, 'espacio2').setScale(2);
+        
         //almacenan las imagenes en una variable
         this.fondoLayer01 = this.add.image(0,300,'fondoLayer01').setOrigin(0,0.5);
         this.fondoLayer02 = this.add.image(800,300,'fondoLayer02').setOrigin(0,0.5);
@@ -229,6 +285,21 @@ class Play02 extends Phaser.Scene{
         this.bossAudio.play(soundConfig);
         
         this.textoDePuntaje = this.add.text(16, 16, 'Puntaje: ' + this.puntaje, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
+        
+        
+        this.textoNivelFinal = this.add.text(400, 300, 'Nivel Final \n ¡Destruye al Maligno!', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tfinal=this.tweens.add({
+			targets:this.textoNivelFinal,
+			visible: true,
+			alpha: 0,
+			ease: "Power 3",
+			duration: 8000,
+			onComplete:function(){
+				tfinal.remove();
+			}
+        
+        });
+        
 
         //creacion jugador
         this.jugador = this.physics.add.sprite(10, 300, 'nave02', 1);
@@ -250,6 +321,8 @@ class Play02 extends Phaser.Scene{
         
         this.grupoBalaJefe = this.physics.add.group();
         this.grupoBalaEnemigo = this.physics.add.group();
+        
+        this.grupoExplosiones = this.physics.add.group();
         
 
 
@@ -326,6 +399,8 @@ class Play02 extends Phaser.Scene{
 
         //conteo para aparicion de obstaculos en vertical
         this.time.addEvent({ delay: 60000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
+        this.time.addEvent({ delay: 60000, callback: this.textoLluvia, callbackScope: this, loop: false });
+        
         
         //this.time.addEvent({ delay: 50, callback: this.generarBalaJefe, callbackScope: this, loop: true });
         
@@ -333,6 +408,7 @@ class Play02 extends Phaser.Scene{
 
     update(){
 		
+			
 		 if(this.jugadorVida==0){
             this.gameOver();
             }
@@ -365,6 +441,8 @@ class Play02 extends Phaser.Scene{
         if(this.fondoLayer02.x <= -780){
             this.fondoLayer02.x = this.fondoLayer01.x + this.fondoLayer01.width ;
         }
+        
+        //this.espacio2.tilePositionX += 0.1;
 
         //controles del jugador
         this.jugador.setVelocityX(0);
@@ -384,9 +462,14 @@ class Play02 extends Phaser.Scene{
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
             this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
-            this.physics.add.collider(this.jugador, this.grupoBalaJefe,this.quitarVida, null, this);
+            
+            if(this.bossLife>0){
+			this.physics.add.collider(this.jugador, this.grupoBalaJefe,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
+            };
+            
+            
 
             
             
@@ -414,12 +497,30 @@ class Play02 extends Phaser.Scene{
             
             
         }
-        
+         // Jefe Destruido
      
         if (this.bossLife <= 0){
 			
+			
+			this.textoVictoria = this.add.text(400, 300, '¡Al fín el imperio del Maligno ha caído \n ¡Cuidado! \n Las fuerzas remanentes aún pueden dañarte', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tfinal=this.tweens.add({
+			targets:this.textoVictoria,
+			visible: true,
+			alpha: 0,
+			//ease: "Power 3",
+			duration: 8000,
+			onComplete:function(){
+				tfinal.remove();
+			}
+        
+        });  
 		console.log('Gano');
-		this.victoria();
+		this.sound.playAudioSprite('explosiones','explosion5');
+		
+		this.cameras.main.shake(3000,0.005);
+		this.time.addEvent({ delay: 50, callback: this.generarExplosiones, callbackScope: this, loop: false });
+		this.time.addEvent({ delay: 8000, callback: this.victoria, callbackScope: this, loop: false });
+		this.boss.destroy();
 		}
 	}
 

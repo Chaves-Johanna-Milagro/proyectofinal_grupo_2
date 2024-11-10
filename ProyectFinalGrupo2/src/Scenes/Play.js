@@ -10,6 +10,7 @@ class Play extends Phaser.Scene {
         this.jugadorVida = 3;
         this.vidas = null;
         this.controlExplosion = null;
+
     }
 
     init(data) {
@@ -20,14 +21,15 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.image('cielo', '../public/resources/img/cielo.jpg');
+        this.load.image('espacio1', '../public/resources/img/espacio1.jpg');
         //this.load.spritesheet('nave', '../juego/public/resources/img/spritenave.png', { frameWidth: 50, frameHeight: 46 });
         this.load.image('meteoro', '../public/resources/img/meteoro.png');
-        this.load.image('asteroide', '../public/resources/img/asteroide.png');
-        this.load.audio('playAudio', '../public/resources/audio/play.mp3');
+        //this.load.image('asteroide', '../public/resources/img/asteroide.png');
+        
         this.load.image('balaVertical', '../public/resources/img/balaVertical.png ')
+        
         this.load.spritesheet('vidas', '../public/resources/img/vidas.png', { frameWidth: 127, frameHeight: 40 });
         this.load.spritesheet('explosion', '../public/resources/img/explosion.png', {frameWidth:32, frameHeight:32});
-
         
         this.load.spritesheet({
             	key:'nave',
@@ -40,6 +42,27 @@ class Play extends Phaser.Scene {
 					
 					}
 				});
+				
+		this.load.spritesheet({
+            	key:'portal',
+				url: '../public/resources/img/convert.png',
+				frameConfig: {
+					frameWidth: 100,
+					frameHeight: 100,
+					startFrame:0,
+					endFrame: 162
+					
+					}
+				});
+				
+		this.load.audio('playAudio', '../public/resources/audio/play.mp3');
+		this.load.audio('energia', '../public/resources/audio/energy-90321.mp3');
+		this.load.audio('portal', '../public/resources/audio/warp-sfx-6897.mp3');
+		this.load.audio('choque', '../public/resources/audio/explosionEnemigo.mp3');
+		this.load.audio('moneda', '../public/resources/audio/retro-coin.mp3');
+		
+		this.load.audioSprite('laser', '../public/resources/audio/laser.json', ['../public/resources/audio/lasergun-35817.mp3']);
+		this.load.audioSprite('explosiones', '../public/resources/audio/explosiones.json', ['../public/resources/audio/explosiones.mp3']);
     }
     
     controlJugador(){
@@ -70,6 +93,34 @@ class Play extends Phaser.Scene {
         meteoro.setVelocityY(200);
     }
     
+    generarPortal(){
+		
+		this.textoPortal = this.add.text(400, 300, 'Se ha abierto un portal a un nivel secreto', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tportal=this.tweens.add({
+			targets:this.textoPortal,
+			visible: true,
+			alpha: 0,
+			ease: "Power 3",
+			duration: 8000,
+			onComplete:function(){
+				tportal.remove();
+			}
+        
+        });
+        
+		this.meteoroSpecial = this.physics.add.sprite(Phaser.Math.Between(0, 800), 70, 'portal');
+		this.meteoroSpecial.play('portal');
+        this.meteoroSpecial.setCollideWorldBounds(true);
+        
+        this.physics.add.overlap(this.jugador, this.meteoroSpecial, this.bonusTrack, null, this);	
+        this.meteoroSpecial.setVelocityY(Phaser.Math.Between(-50, 50));
+        this.meteoroSpecial.setVelocityX(Phaser.Math.Between(-50, 50));
+        
+        
+        
+        
+	}
+    
        
     destruirMeteoro(bala,meteoro){
         bala.destroy();
@@ -80,6 +131,7 @@ class Play extends Phaser.Scene {
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.time.delayedCall(50, meteoro.destroy(), [], this);
+        this.sound.playAudioSprite('explosiones','explosion1');
         
         //meteoro.destroy();
     }
@@ -94,18 +146,22 @@ class Play extends Phaser.Scene {
 
     bonusTrack() {
         
+        this.sound.play('portal');
         this.playAudio.stop();
         this.scene.start('BonusTrack', { puntaje: this.puntaje, jugadorVida: this.jugadorVida });
     }
     
     dispararRayo(){
 		this.bala = this.physics.add.image(this.jugador.x, this.jugador.y-20, 'balaVertical');
-            this.bala.setVelocityY(-600);
+            this.bala.setVelocityY(-600)
+            this.sound.playAudioSprite('laser','laser1');
 	}
 	
 	quitarVida(jugador, enemigo, meteoro,balaJefe){
         enemigo.destroy();
         this.jugadorVida -= 1;
+        this.sound.play('choque');
+        this.cameras.main.shake(1000,0.005);
         console.log(this.jugadorVida);
     }
     
@@ -113,6 +169,7 @@ class Play extends Phaser.Scene {
         bala.destroy();
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
+        this.sound.playAudioSprite('explosiones','explosion1');
         //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
@@ -125,7 +182,8 @@ class Play extends Phaser.Scene {
 
     create() {
 		//this.puntaje=0;
-        this.add.image(400, 300, 'cielo');
+        //this.add.image(400, 300, 'cielo');
+		this.espacio1 = this.add.tileSprite(0,0,800,600, 'espacio1').setScale(2);
 
        
         this.playAudio = this.sound.add('playAudio');
@@ -149,16 +207,16 @@ class Play extends Phaser.Scene {
         this.grupoMeteoros = this.physics.add.group();
         this.time.addEvent({ delay: 1000, callback: this.generarMeteoros, callbackScope: this, loop: true });
         
-        
+              
     
         //control colision
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.quitarVida, null, this);
         
 
-        //creacion meteoro para ingresar al bonus
+      /*  //creacion meteoro para ingresar al bonus
         this.meteoroSpecial = this.physics.add.sprite(200, 0, 'asteroide');
         this.meteoroSpecial.setCollideWorldBounds(true);
-        this.physics.add.overlap(this.jugador, this.meteoroSpecial, this.bonusTrack, null, this);
+        this.physics.add.overlap(this.jugador, this.meteoroSpecial, this.bonusTrack, null, this);*/
         
         //muestra puntaje
         this.textoDePuntaje = this.add.text(16, 16, 'Puntaje: ' + this.puntaje, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
@@ -213,6 +271,17 @@ class Play extends Phaser.Scene {
             hideOnComplete: true,
             destroyOnComplete: true
             });
+            
+            
+             //animación de explosión
+        this.anims.create({
+            key: 'portal',
+            frames: this.anims.generateFrameNumbers('portal', {start:0, end:162}),
+            frameRate: 20,
+            repeat: 0,
+            hideOnComplete: false,
+            destroyOnComplete: false
+            });
         
 			
 
@@ -221,9 +290,31 @@ class Play extends Phaser.Scene {
             this.playAudio.stop();
             this.scene.start('Play02');
         });*/
+        
+        
+        this.textoMover = this.add.text(400, 300, 'Para mover la nave use los cursores del teclado \n Para disparar use [Z]', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tmover=this.tweens.add({
+			targets:this.textoMover,
+			visible: true,
+			alpha: 0,
+			//ease: "Power 3",
+			ease: "quintic",
+			duration: 6000,
+			onComplete:function(){
+				tmover.remove();
+			}
+        
+        });
+                       
+        this.time.addEvent({ delay: 15000, callback: this.generarPortal, callbackScope: this, loop: true });
+
+        
+        
     }
 
     update() {
+		
+		
 		
 		 if(this.jugadorVida==0){
             this.gameOver();
@@ -241,8 +332,12 @@ class Play extends Phaser.Scene {
         if(this.jugadorVida==1){
             this.vidas.anims.play('1', true);
         }
+        
+       // this.time.addEvent({ delay: 15000, callback: this.generarPortal, callbackScope: this, loop: false });
 		
         //controles del jugador
+        this.espacio1.tilePositionY -= 0.1;
+        
         this.jugador.setVelocityX(0);
         this.jugador.setVelocityY(0);
         this.jugador.anims.play('normal', true);
@@ -262,6 +357,8 @@ class Play extends Phaser.Scene {
                 this.bala.destroy();
             }
         }
+        
+        
 
         this.puntaje += 1;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
