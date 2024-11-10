@@ -20,7 +20,6 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.image('cielo', '../public/resources/img/cielo.jpg');
-        //this.load.spritesheet('nave', '../juego/public/resources/img/spritenave.png', { frameWidth: 50, frameHeight: 46 });
         this.load.image('meteoro', '../public/resources/img/meteoro.png');
         this.load.image('asteroide', '../public/resources/img/asteroide.png');
         this.load.audio('playAudio', '../public/resources/audio/play.mp3');
@@ -45,7 +44,6 @@ class Play extends Phaser.Scene {
     controlJugador(){
 		
         if (this.cursors.left.isDown) {
-          //  this.jugador.setVelocityX(-300);
             this.jugador.setVelocityX(-300);
             this.jugador.anims.play('izquierda', true);
         } 
@@ -76,12 +74,9 @@ class Play extends Phaser.Scene {
         meteoro.physics.body(null);
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.time.delayedCall(50, meteoro.destroy(), [], this);
-        
-        //meteoro.destroy();
     }
 
     gameOver() {
@@ -113,18 +108,14 @@ class Play extends Phaser.Scene {
         bala.destroy();
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
-        //this.time.delayedCall(50, meteoro.destroy(), [], this);
-        
-        //meteoro.destroy();
     }
 	
 
 
     create() {
-		//this.puntaje=0;
+
         this.add.image(400, 300, 'cielo');
 
        
@@ -166,14 +157,12 @@ class Play extends Phaser.Scene {
         //animacion del jugador
         this.anims.create({
             key: 'izquierda',
-            //frames: [{ key: 'nave', frame: 0 }],
             frames: this.anims.generateFrameNumbers('nave', {frames:[0,1]}),
             frameRate: 20,
             repeat:-1
         });
         this.anims.create({
             key: 'normal',
-            //frames: [{ key: 'nave', frame: 1 }],
             frames: this.anims.generateFrameNumbers('nave', {frames:[2,3]}),
             frameRate: 20,
             repeat:-1
@@ -181,7 +170,6 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'derecha',
             frames: this.anims.generateFrameNumbers('nave', {frames:[4,5]}),
-        //  frames: [{ key: 'nave', frame: 2 }],
             frameRate: 20,
 			repeat:-1
             
@@ -213,14 +201,6 @@ class Play extends Phaser.Scene {
             hideOnComplete: true,
             destroyOnComplete: true
             });
-        
-			
-
-        //utilizado para acceder a la Play02
-        /*this.input.keyboard.once('keydown-SPACE', () =>{
-            this.playAudio.stop();
-            this.scene.start('Play02');
-        });*/
     }
 
     update() {

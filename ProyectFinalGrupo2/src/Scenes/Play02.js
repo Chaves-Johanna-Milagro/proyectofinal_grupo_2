@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 class Play02 extends Phaser.Scene{
-//de momento se accede presionando el espacio en la escena Play
+
     constructor(){
         super("Play02");
         this.jugador = null;
@@ -52,7 +52,6 @@ class Play02 extends Phaser.Scene{
     controlJugador(){
 		
         if (this.cursors.left.isDown) {
-          //  this.jugador.setVelocityX(-300);
             this.jugador.setVelocityX(-300);
         } 
         else if (this.cursors.right.isDown) {
@@ -79,7 +78,6 @@ class Play02 extends Phaser.Scene{
         bala.destroy();
         enemigo.setTexture('explosion');
         enemigo.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=10;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
 
@@ -114,7 +112,6 @@ class Play02 extends Phaser.Scene{
     }
 
     mostrarBoss(){
-        //this.textoDePuntaje = this.add.text(16, 50, 'BOSS: ' + this.bossLife, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         this.boss.y=300;
         this.textoDeJefe = this.add.text(16, 50, 'BOSS: ' + this.bossLife, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         //el boss entra lentamente a la pantalla, seguramente hay una forma menos tosca de hacerlo pero es lo q se me ocurrio xd
@@ -147,20 +144,16 @@ class Play02 extends Phaser.Scene{
         
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.time.delayedCall(50, meteoro.destroy(), [], this);
         
-        //meteoro.destroy();
     }
     
     generarBalaJefe() {
 		
         const y = Phaser.Math.Between(280,320 );
-        //const bala = this.grupoMeteoros.create(this.boss.x, y, 'meteoro');
-       // meteoro.setVelocityY(Phaser.Math.Between(-200,200));
-      			
+        	
 		const x = Phaser.Math.Between(0, 800);
         const balaJefe = this.grupoBalaJefe.create(this.boss.x-10,this.boss.y-50, 'balaHorizontal');
 
@@ -187,7 +180,6 @@ class Play02 extends Phaser.Scene{
     
     victoria() {
         
-        //this.playAudio.stop();
         this.sound.stopAll();
         this.scene.start('Victoria', { puntaje: this.puntaje });
 
@@ -328,7 +320,6 @@ class Play02 extends Phaser.Scene{
         //conteo para aparicion de obstaculos en vertical
         this.time.addEvent({ delay: 60000, callback: this.obstaculosVertical, callbackScope: this, loop: false });
         
-        //this.time.addEvent({ delay: 50, callback: this.generarBalaJefe, callbackScope: this, loop: true });
         
     }
 
@@ -378,20 +369,12 @@ class Play02 extends Phaser.Scene{
         if(Phaser.Input.Keyboard.JustDown(this.cursors.z)){
 			this.dispararRayo();
             
-
-            //this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
-
-        
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
             this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
             this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoBalaJefe,this.quitarVida, null, this);
-            this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);
-            
-
-            
-            
+            this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);    
 
             //destruye la bala cuando sale de la pantalla para que no ocupe memoria
             if(this.bala.y >= this.sys.game.config.width){
@@ -411,21 +394,16 @@ class Play02 extends Phaser.Scene{
         if (this.controlBossColision == true){
             this.physics.add.collider(this.bala, this.boss, this.danarBoss, null, this);
             this.physics.add.collider(this.jugador, this.boss, this.gameOver, null, this);
-           
-            
-            
-            
+
         }
-        
-     
+
         if (this.bossLife <= 0){
 			
 		console.log('Gano');
 		this.victoria();
 		}
 	}
-
-        
+   
     }
 }  
 export default Play02;
