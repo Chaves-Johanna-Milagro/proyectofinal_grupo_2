@@ -2,8 +2,8 @@ import React from 'react';
 
 function ListaBilleteras({ regBilletera }) {
   return (
-    <div>
-      <h2>Lista de Billeteras Registradas</h2>
+    <div className='text-white'>
+      <h3>Lista de Billeteras Registradas</h3>
       <ul>
         {regBilletera.map((billetera, index) => (
           <li key={index}>
