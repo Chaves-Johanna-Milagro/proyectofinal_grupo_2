@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Container, Row, Col, Alert } from "react-bootstrap";
+import { Button, Form, Row, Col, Card } from "react-bootstrap";
 import ListaBilleteras from "./ListaBilleteras"; // Importa el componente para mostrar billeteras
 import MaxTransacciones from "./MaxTransacciones"; // Importa el componente para mostrar las transacciones máximas
 
@@ -57,11 +57,12 @@ function GestorBilleteraVirtual() {
   };
 
   return (
-    <Container>
-      <h1 className="my-4 text-center">Gestor de Transacciones en Billeteras Virtuales</h1>
+    <section className="p-4">
+      <Card className="p-5" style={{backgroundColor: 'rgba(0,0,0,0.8)'}} >
+      <h1 className="text-white text-center mb-4">Gestor de Transacciones en Billeteras Virtuales</h1>
       <Form>
   
-        <Row className="mb-4">
+        <Row className="align-items-center text-white">
           <Col md={6}>
             <Form.Group controlId="formNombre">
               <Form.Label>Nombre de usuario</Form.Label>
@@ -70,15 +71,19 @@ function GestorBilleteraVirtual() {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)} />
             </Form.Group>
+          </Col>
 
+          <Col md={6}>
             <Form.Group controlId="formBilletera">
               <Form.Label>Billetera virtual</Form.Label>
               <Form.Control
                 type="text"
                 value={billetera}
                 onChange={(e) => setBilletera(e.target.value)} />
-            </Form.Group>   
+            </Form.Group>          
+          </Col>
 
+          <Col className="pt-2">
             <Form.Group controlId="formNumTransac">
               <Form.Label>Numero de transacciones realizadas</Form.Label>
               <Form.Control
@@ -87,38 +92,38 @@ function GestorBilleteraVirtual() {
                 onChange={(e) => setNumTransac(Number(e.target.value))} />
             </Form.Group>  
 
-          </Col>
-        </Row>
+            <Button className="w-100 mt-3" variant="primary" onClick={registrar}>Registrar</Button>
 
-        <Row className="mb-4">
-          <Col md={5}>
-           <Button variant="primary" onClick={registrar}>Registrar</Button>
+            <Button
+              className="w-100 mt-3"
+              variant={mostrarBilleteras ? "secondary" : "primary"}
+              onClick={() => setMostrarBilleteras(!mostrarBilleteras)}>
+              {mostrarBilleteras ? "Ocultar Billeteras Registradas" : "Mostrar Billeteras Registradas"}
+            </Button>
 
-           <Button
-           variant={mostrarBilleteras ? "danger" : "success"}
-           onClick={() => setMostrarBilleteras(!mostrarBilleteras)}>
-           {mostrarBilleteras ? "Ocultar Billeteras Registradas" : "Mostrar Billeteras Registradas"}
-           </Button>
-
-           <Button
-           variant={mostrarMaxTransac ? "danger" : "info"}
-           onClick={() => setMostrarMaxTransac(!mostrarMaxTransac)}
-           className="ms-2">
-           {mostrarMaxTransac ? "Ocultar Mayor Cantidad de Transacciones" : "Mostrar Mayor Cantidad de Transacciones"}
-           </Button>
+            <Button
+              className=" w-100 mt-3"
+              variant={mostrarMaxTransac ? "secondary" : "primary"}
+              onClick={() => setMostrarMaxTransac(!mostrarMaxTransac)}>
+              {mostrarMaxTransac ? "Ocultar Mayor Cantidad de Transacciones" : "Mostrar Mayor Cantidad de Transacciones"}
+            </Button>            
 
           </Col>
         </Row>
+
       </Form>
 
-      
-
+      <Row>
       {/* Mostrar las listas según el estado */}
-      {mostrarBilleteras && <ListaBilleteras regBilletera={regBilletera} />}
-      {mostrarMaxTransac && <MaxTransacciones maxTransacciones={getMaxTransac()} />}
-
-      
-    </Container>
+      <Col className="pt-2" md={6}>
+        {mostrarBilleteras && <ListaBilleteras regBilletera={regBilletera} />}      
+      </Col>
+      <Col className="pt-2" md={6}>
+        {mostrarMaxTransac && <MaxTransacciones maxTransacciones={getMaxTransac()} />}      
+      </Col>
+     </Row>
+     </Card>
+    </section>
   );
 }
 

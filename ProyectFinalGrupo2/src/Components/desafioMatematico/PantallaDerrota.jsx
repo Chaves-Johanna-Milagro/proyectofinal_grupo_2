@@ -1,9 +1,18 @@
 import React from 'react';
+import { Card,Row ,Col } from 'react-bootstrap';
+import '../../../public/styles/DesafioMatematico.css';
 
 function PantallaDerrota() {
     return (
-        <div>
-            <h1>No lograste superar el desafío matemático.</h1>
+        <div className='pantallaDerrota'>
+            <Card className='card'>
+                <Row className='align-items-center'>
+                    <Col md={5}>
+                    <h1>No lograste superar el desafío matemático.</h1>
+                    </Col>
+                </Row>
+            </Card>
+            
         </div>
     );
 }
