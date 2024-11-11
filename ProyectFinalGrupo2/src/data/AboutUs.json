@@ -1,9 +1,9 @@
 [{
     "id": 1,
-    "photo": "../../public/img/imagen.png",
+    "photo": "../../public/img/zorro.png",
    "name": "Castro Jose",
     "rol": "Estudiante",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "description": "Me interesa la creación de Videos Juegos, Artista Digital",
     "github": "https://github.com/Josepheum"
 },{
     "id": 2,
