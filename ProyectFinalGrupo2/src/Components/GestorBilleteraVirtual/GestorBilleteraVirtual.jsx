@@ -13,22 +13,19 @@ function GestorBilleteraVirtual() {
   const [mostrarBilleteras, setMostrarBilleteras] = useState(false);
   const [mostrarMaxTransac, setMostrarMaxTransac] = useState(false);
 
-  // Función para registrar o actualizar las billeteras
+  //opciones para elegir la billetera
+  const selectBillitera = ["Mercado Pago", "Uala", "PayPal", "Personal Pay","Brubank", "Naranja X"];
+
+  // Función para registrar
   const registrar = () => {
+    //verifica de los valores de nombre y billetera no esten vacios y que numTransac sea un numero , mayor a 0
     if (nombre && billetera && !isNaN(numTransac) && numTransac >= 0) {
-      const regExistente = regBilletera.findIndex(
-        (reg) => reg.nombre === nombre && reg.billetera === billetera
-      );
 
-      if (regExistente !== -1) {
-        const actualizarBill = [...regBilletera];
-        actualizarBill[regExistente].numTransac += parseInt(numTransac, 10);
-        setRegBilletera(actualizarBill);
-      } else {
-        const newBilletera = { nombre, billetera, numTransac: parseInt(numTransac, 10) };
-        setRegBilletera([...regBilletera, newBilletera]);
-      }
+      const newBilletera = { nombre, billetera, numTransac: parseInt(numTransac) };
 
+      setRegBilletera([...regBilletera, newBilletera]); //toma todos los elementos de regBilletera y agrega al final la newBilletera
+      
+      //limpia los campos
       setNombre('');
       setBilletera('');
       setNumTransac('');
@@ -39,22 +36,21 @@ function GestorBilleteraVirtual() {
 
   // Función para obtener el registro con la mayor cantidad de transacciones de cada usuario
   const getMaxTransac = () => {
-    const usuarioTransac = regBilletera.reduce((reg, billetera) => {
-      if (!reg[billetera.nombre]) {
-        reg[billetera.nombre] = [];
+    //agrupa las billeteras y encuentra la que tiene mas transacciopnes
+    const maxTransaciones= regBilletera.reduce( (acc,current) => {     //acc vendria a ser el obj resultado y current seria el elemento actual del array
+      //si no existe un registro para el usuario actual, asigna el primer registro
+      if(!acc[current.nombre] || current.numTransac > acc[current.nombre].numTransac) {
+        acc[current.nombre] = current;
       }
-      reg[billetera.nombre].push(billetera);
-      return reg;
-    }, {});
 
-    const usuarioMaxTransac = Object.entries(usuarioTransac).map(([usuario, billeteras]) => {
-      const maxTransac = billeteras.reduce((max, cont) =>
-        cont.numTransac > max.numTransac ? cont : max
-      );
-      return { usuario, ...maxTransac };
-    });
-    return usuarioMaxTransac;
+      return acc;
+    }, {} );
+
+    //convertir el resultado en un array
+    return Object.values(maxTransaciones);
+    
   };
+  
 
   return (
     <section className="p-4">
@@ -69,17 +65,24 @@ function GestorBilleteraVirtual() {
               <Form.Control
                 type="text"
                 value={nombre}
-                onChange={(e) => setNombre(e.target.value)} />
+                onChange={(e) => setNombre(e.target.value)} 
+                placeholder="Ej. Juan"/>
             </Form.Group>
           </Col>
 
           <Col md={6}>
             <Form.Group controlId="formBilletera">
               <Form.Label>Billetera virtual</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Select
+                style={{ color: 'black'}} 
                 value={billetera}
-                onChange={(e) => setBilletera(e.target.value)} />
+                onChange={(e) => setBilletera(e.target.value)} 
+                >
+                <option value="">Seleccione una billetera</option>
+                {selectBillitera.map((opcion, index) => (
+                  <option key={index} value={opcion}>{opcion}</option>
+                ))}
+                </Form.Select>
             </Form.Group>          
           </Col>
 
@@ -89,7 +92,8 @@ function GestorBilleteraVirtual() {
               <Form.Control
                 type="number"
                 value={numTransac}
-                onChange={(e) => setNumTransac(Number(e.target.value))} />
+                onChange={(e) => setNumTransac(Number(e.target.value))} 
+                placeholder="Ej. 5"/>
             </Form.Group>  
 
             <Button className="w-100 mt-3" variant="primary" onClick={registrar}>Registrar</Button>
