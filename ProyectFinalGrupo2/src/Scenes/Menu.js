@@ -15,7 +15,7 @@ class Menu extends Phaser.Scene{
         //imagen
         this.add.image(400,300,'menu');
 
-        //audio -- nose pq el audio no se reproduce hasta hacer clic :'v
+        //audio
         this.menuAudio = this.sound.add('menuAudio');
         const soundConfig = {
             volume: 1,
@@ -30,7 +30,7 @@ class Menu extends Phaser.Scene{
         //iniciar juego presionando space
         this.input.keyboard.once('keydown-SPACE', () =>{
             this.menuAudio.stop();
-            this.scene.start('Play');//cambiar a Play para presentar, esta en 02 para testeo
+            this.scene.start('Play');
         })
     }
 }

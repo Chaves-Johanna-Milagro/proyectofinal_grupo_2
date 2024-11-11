@@ -21,10 +21,15 @@ class BonusTrack extends Phaser.Scene {
     }
 
     preload() {
+        //fondo
         this.load.image('espacio', '../public/resources/img/espacio.jpg');
+        //nave
         this.load.spritesheet('nave', '../public/resources/img/spritenaveB.png', { frameWidth: 50, frameHeight: 46 });
+        //moneda
         this.load.spritesheet('moneda', '../public/resources/img/monedas32.png', { frameWidth: 32, frameHeight: 32 });
+       //audio
         this.load.audio('bonusAudio', '../public/resources/audio/bonus.mp3');
+        //controles
         this.cursors = this.input.keyboard.createCursorKeys();
     }
 
@@ -45,6 +50,7 @@ class BonusTrack extends Phaser.Scene {
     }
     
     vidaExtra(){
+        //si el jugador supera los 3500 pts le agrega una vida (solo si tiene menos de 3)
 		if(this.puntaje > 3500 && this.jugadorVida < 3){
 			this.textoVida1 = this.add.text(400, 300, 'Recuperaste una vida', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
         var tsecreto=this.tweens.add({
@@ -97,19 +103,24 @@ class BonusTrack extends Phaser.Scene {
     }
 
     create() {
+        //fondo
         this.add.image(400, 300, 'espacio').setDisplaySize(this.sys.game.config.width, this.sys.game.config.height);
 
+        //audio
         this.bonusAudio = this.sound.add('bonusAudio');
         const soundConfig = { volume: 1, loop: true };
         this.bonusAudio.play(soundConfig);
         
+        //muestra vidas
         this.vidas = this.add.sprite(73,570,'vidas',0);
 
+        //jugador
         this.jugador = this.physics.add.sprite(400, 550, 'nave', 1);
         this.jugador.setCollideWorldBounds(true);
         
         this.animacionPlayer();
 
+        //creacion grupo de monedas y su generacion
         this.grupoMonedas = this.physics.add.group();
         this.time.addEvent({ delay: 500, callback: this.generarMonedas, callbackScope: this, loop: true });
 
@@ -133,7 +144,7 @@ class BonusTrack extends Phaser.Scene {
         });
         
 
-     
+        //el bonustrack termina tras 8seg
         this.time.delayedCall(8000, this.endBonusTrack, [], this);
 
     }
@@ -141,7 +152,7 @@ class BonusTrack extends Phaser.Scene {
     
 
     update() {
-		
+		//control gameover
 		 if(this.jugadorVida==0){
             this.gameOver();
             }
@@ -160,7 +171,7 @@ class BonusTrack extends Phaser.Scene {
             this.vidas.anims.play('1', true);
         };
         
-       
+       //controles jugador
         this.jugador.setVelocityX(0);
         this.jugador.setVelocityY(0);
         this.jugador.anims.play('normal', true);

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 class Play02 extends Phaser.Scene{
-//de momento se accede presionando el espacio en la escena Play
+
     constructor(){
         super("Play02");
         this.jugador = null;
@@ -16,7 +16,6 @@ class Play02 extends Phaser.Scene{
         this.intervalo=0;
     }
      init(data) {
-        //this.puntaje = data.puntaje || 0; 
         this.puntaje = data.puntaje; 
         this.jugadorVida=data.jugadorVida;
         console.log(this.jugadorVida);
@@ -26,7 +25,6 @@ class Play02 extends Phaser.Scene{
         //son la misma imagen solo que una está volteada para que el layer no se vea cortado
         this.load.image('fondoLayer01','../public/resources/img/fondoLayer01.jpg');
         this.load.image('fondoLayer02','../public/resources/img/fondoLayer02.jpg');
-        //this.load.image('espacio2','../public/resources/img/fondoLayer01.jpg');
 
         //audio
         this.load.audio('bossAudio', '../public/resources/audio/boss.mp3');
@@ -68,7 +66,6 @@ class Play02 extends Phaser.Scene{
     controlJugador(){
 		
         if (this.cursors.left.isDown) {
-          //  this.jugador.setVelocityX(-300);
             this.jugador.setVelocityX(-300);
         } 
         else if (this.cursors.right.isDown) {
@@ -98,14 +95,13 @@ class Play02 extends Phaser.Scene{
         explosiones.setVelocityY(Phaser.Math.Between(-200, 200));
         explosiones.setVelocityX(Phaser.Math.Between(-200, 200));
         
-        
+  
     }
 
     eliminarEnemigo(bala,enemigo){
         bala.destroy();
         enemigo.setTexture('explosion');
         enemigo.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=10;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.sound.playAudioSprite('explosiones','explosion2');
@@ -147,14 +143,16 @@ class Play02 extends Phaser.Scene{
     }
 
     mostrarBoss(){
-        //this.textoDePuntaje = this.add.text(16, 50, 'BOSS: ' + this.bossLife, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         this.boss.y=300;
         this.textoDeJefe = this.add.text(16, 50, 'BOSS: ' + this.bossLife, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         //el boss entra lentamente a la pantalla, seguramente hay una forma menos tosca de hacerlo pero es lo q se me ocurrio xd
         this.boss.setVelocityX(-100);
         this.time.addEvent({ delay: 600, callback: this.generarBalaJefe, callbackScope: this, loop: true });
 
+        //empiezan a aparecer vidas extra al empezar el jefe
         this.time.addEvent({ delay: 10000, callback: this.generarVidas, callbackScope: this, loop: true });
+
+
         this.textoVida = this.add.text(400, 300, '¡Aquí viene! ¡Prepárate!', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
         var tfinal=this.tweens.add({
 			targets:this.textoVida,
@@ -184,7 +182,6 @@ class Play02 extends Phaser.Scene{
     }
 
     obstaculosVertical(){
-        this.grupoMeteoros = this.physics.add.group();
         this.time.addEvent({ delay: 1000, callback: this.generarMeteoros, callbackScope: this, loop: true });
     }
     generarMeteoros() {
@@ -198,31 +195,23 @@ class Play02 extends Phaser.Scene{
         this.sound.playAudioSprite('explosiones','explosion1');
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.time.delayedCall(50, meteoro.destroy(), [], this);
         this.sound.playAudioSprite('explosiones','explosion1');
         
-        //meteoro.destroy();
     }
     
     generarBalaJefe() {
 		
-		
         const y = Phaser.Math.Between(280,320 );
-        //const bala = this.grupoMeteoros.create(this.boss.x, y, 'meteoro');
-       // meteoro.setVelocityY(Phaser.Math.Between(-200,200));
-      			
+        	
 		const x = Phaser.Math.Between(0, 800);
         const balaJefe = this.grupoBalaJefe.create(this.boss.x-10,this.boss.y-50, 'balaHorizontal');
 
         balaJefe.setVelocityY(Phaser.Math.Between(-300, 300));
         
-        balaJefe.setVelocityX(-600);
-
-        
-              
+        balaJefe.setVelocityX(-600);     
 	}
 	
 	generarBalaEnemigo() {
@@ -241,7 +230,6 @@ class Play02 extends Phaser.Scene{
     
     victoria() {
         
-        //this.playAudio.stop();
         this.sound.stopAll();
         this.scene.start('Victoria', { puntaje: this.puntaje });
 
@@ -271,12 +259,12 @@ class Play02 extends Phaser.Scene{
     create(){
 		this.bossLife=300;
         this.controlBossColision = false;
-        //this.espacio2 = this.add.tileSprite(0,0,800,600, 'espacio2').setScale(2);
         
         //almacenan las imagenes en una variable
         this.fondoLayer01 = this.add.image(0,300,'fondoLayer01').setOrigin(0,0.5);
         this.fondoLayer02 = this.add.image(800,300,'fondoLayer02').setOrigin(0,0.5);
 
+        //audio fondo
         this.bossAudio = this.sound.add('bossAudio');
         const soundConfig = {
             volume: 1,
@@ -315,12 +303,14 @@ class Play02 extends Phaser.Scene{
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors.z = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
 
-        //creacion enemigos
+        //creacion enemigos y obstaculos
         this.grupoEnemigos = this.physics.add.group();
         this.time.addEvent({ delay: 1000, callback: this.generarEnemigos, callbackScope: this, loop: true });
         
         this.grupoBalaJefe = this.physics.add.group();
         this.grupoBalaEnemigo = this.physics.add.group();
+
+        this.grupoMeteoros = this.physics.add.group();
         
         this.grupoExplosiones = this.physics.add.group();
         
@@ -402,13 +392,12 @@ class Play02 extends Phaser.Scene{
         this.time.addEvent({ delay: 60000, callback: this.textoLluvia, callbackScope: this, loop: false });
         
         
-        //this.time.addEvent({ delay: 50, callback: this.generarBalaJefe, callbackScope: this, loop: true });
         
     }
 
     update(){
 		
-			
+		//condicion game over
 		 if(this.jugadorVida==0){
             this.gameOver();
             }
@@ -441,8 +430,7 @@ class Play02 extends Phaser.Scene{
         if(this.fondoLayer02.x <= -780){
             this.fondoLayer02.x = this.fondoLayer01.x + this.fondoLayer01.width ;
         }
-        
-        //this.espacio2.tilePositionX += 0.1;
+
 
         //controles del jugador
         this.jugador.setVelocityX(0);
@@ -451,14 +439,10 @@ class Play02 extends Phaser.Scene{
         
         this.controlJugador();
 
-                
+        //disparo jugador     
         if(Phaser.Input.Keyboard.JustDown(this.cursors.z)){
 			this.dispararRayo();
             
-
-            //this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
-
-        
             //balas y enemigos
             this.physics.add.collider( this.bala ,this.grupoEnemigos, this.eliminarEnemigo, null, this);
             this.physics.add.collider(this.bala, this.grupoMeteoros, this.destruirMeteoro, null, this);
@@ -468,10 +452,6 @@ class Play02 extends Phaser.Scene{
             this.physics.add.collider(this.jugador, this.grupoBalaEnemigo,this.quitarVida, null, this);
             this.physics.add.collider(this.jugador, this.grupoMeteoros,this.quitarVida, null, this);
             };
-            
-            
-
-            
             
 
             //destruye la bala cuando sale de la pantalla para que no ocupe memoria
@@ -492,10 +472,7 @@ class Play02 extends Phaser.Scene{
         if (this.controlBossColision == true){
             this.physics.add.collider(this.bala, this.boss, this.danarBoss, null, this);
             this.physics.add.collider(this.jugador, this.boss, this.gameOver, null, this);
-           
-            
-            
-            
+
         }
          // Jefe Destruido
      
@@ -523,8 +500,7 @@ class Play02 extends Phaser.Scene{
 		this.boss.destroy();
 		}
 	}
-
-        
+   
     }
 }  
 export default Play02;

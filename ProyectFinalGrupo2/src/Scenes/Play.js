@@ -20,17 +20,15 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('cielo', '../public/resources/img/cielo.jpg');
+        //fondo
         this.load.image('espacio1', '../public/resources/img/espacio1.jpg');
-        //this.load.spritesheet('nave', '../juego/public/resources/img/spritenave.png', { frameWidth: 50, frameHeight: 46 });
         this.load.image('meteoro', '../public/resources/img/meteoro.png');
-        //this.load.image('asteroide', '../public/resources/img/asteroide.png');
-        
+        //bala
         this.load.image('balaVertical', '../public/resources/img/balaVertical.png ')
-        
+        //sprite vida y explosiones
         this.load.spritesheet('vidas', '../public/resources/img/vidas.png', { frameWidth: 127, frameHeight: 40 });
         this.load.spritesheet('explosion', '../public/resources/img/explosion.png', {frameWidth:32, frameHeight:32});
-        
+        //sprite nave
         this.load.spritesheet({
             	key:'nave',
 				url: '../public/resources/img/spritenaveB.png',
@@ -42,7 +40,7 @@ class Play extends Phaser.Scene {
 					
 					}
 				});
-				
+		//sprite portal nivel extra		
 		this.load.spritesheet({
             	key:'portal',
 				url: '../public/resources/img/convert.png',
@@ -54,7 +52,7 @@ class Play extends Phaser.Scene {
 					
 					}
 				});
-				
+			//audio	
 		this.load.audio('playAudio', '../public/resources/audio/play.mp3');
 		this.load.audio('energia', '../public/resources/audio/energy-90321.mp3');
 		this.load.audio('portal', '../public/resources/audio/warp-sfx-6897.mp3');
@@ -68,7 +66,6 @@ class Play extends Phaser.Scene {
     controlJugador(){
 		
         if (this.cursors.left.isDown) {
-          //  this.jugador.setVelocityX(-300);
             this.jugador.setVelocityX(-300);
             this.jugador.anims.play('izquierda', true);
         } 
@@ -115,10 +112,7 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.jugador, this.meteoroSpecial, this.bonusTrack, null, this);	
         this.meteoroSpecial.setVelocityY(Phaser.Math.Between(-50, 50));
         this.meteoroSpecial.setVelocityX(Phaser.Math.Between(-50, 50));
-        
-        
-        
-        
+   
 	}
     
        
@@ -127,13 +121,10 @@ class Play extends Phaser.Scene {
         meteoro.physics.body(null);
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
-        //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
         this.time.delayedCall(50, meteoro.destroy(), [], this);
         this.sound.playAudioSprite('explosiones','explosion1');
-        
-        //meteoro.destroy();
     }
 
     gameOver() {
@@ -170,22 +161,16 @@ class Play extends Phaser.Scene {
         meteoro.setTexture('explosion');
         meteoro.play('explosion');
         this.sound.playAudioSprite('explosiones','explosion1');
-        //enemigo.destroy();
         this.puntaje +=5;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
-        //this.time.delayedCall(50, meteoro.destroy(), [], this);
-        
-        //meteoro.destroy();
     }
 	
 
 
     create() {
-		//this.puntaje=0;
-        //this.add.image(400, 300, 'cielo');
 		this.espacio1 = this.add.tileSprite(0,0,800,600, 'espacio1').setScale(2);
 
-       
+       //audio de fondo
         this.playAudio = this.sound.add('playAudio');
         const soundConfig = {
             volume: 1,
@@ -193,6 +178,7 @@ class Play extends Phaser.Scene {
         };
         this.playAudio.play(soundConfig);
         
+        //muestra de las vidas
         this.vidas = this.add.sprite(73,570,'vidas',0);
 
         //creacion jugador
@@ -212,11 +198,6 @@ class Play extends Phaser.Scene {
         //control colision
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.quitarVida, null, this);
         
-
-      /*  //creacion meteoro para ingresar al bonus
-        this.meteoroSpecial = this.physics.add.sprite(200, 0, 'asteroide');
-        this.meteoroSpecial.setCollideWorldBounds(true);
-        this.physics.add.overlap(this.jugador, this.meteoroSpecial, this.bonusTrack, null, this);*/
         
         //muestra puntaje
         this.textoDePuntaje = this.add.text(16, 16, 'Puntaje: ' + this.puntaje, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
@@ -224,14 +205,12 @@ class Play extends Phaser.Scene {
         //animacion del jugador
         this.anims.create({
             key: 'izquierda',
-            //frames: [{ key: 'nave', frame: 0 }],
             frames: this.anims.generateFrameNumbers('nave', {frames:[0,1]}),
             frameRate: 20,
             repeat:-1
         });
         this.anims.create({
             key: 'normal',
-            //frames: [{ key: 'nave', frame: 1 }],
             frames: this.anims.generateFrameNumbers('nave', {frames:[2,3]}),
             frameRate: 20,
             repeat:-1
@@ -239,7 +218,6 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'derecha',
             frames: this.anims.generateFrameNumbers('nave', {frames:[4,5]}),
-        //  frames: [{ key: 'nave', frame: 2 }],
             frameRate: 20,
 			repeat:-1
             
@@ -283,15 +261,8 @@ class Play extends Phaser.Scene {
             destroyOnComplete: false
             });
         
-			
-
-        //utilizado para acceder a la Play02
-        /*this.input.keyboard.once('keydown-SPACE', () =>{
-            this.playAudio.stop();
-            this.scene.start('Play02');
-        });*/
-        
-        
+			     
+        //muestra texto tutorial
         this.textoMover = this.add.text(400, 300, 'Para mover la nave use los cursores del teclado \n Para disparar use [Z]', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
         var tmover=this.tweens.add({
 			targets:this.textoMover,
@@ -305,7 +276,8 @@ class Play extends Phaser.Scene {
 			}
         
         });
-                       
+                
+        //genera el portal al nivel extra luego de 15seg
         this.time.addEvent({ delay: 15000, callback: this.generarPortal, callbackScope: this, loop: true });
 
         
@@ -313,9 +285,8 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-		
-		
-		
+
+		//condicion de game over
 		 if(this.jugadorVida==0){
             this.gameOver();
             }
@@ -333,7 +304,6 @@ class Play extends Phaser.Scene {
             this.vidas.anims.play('1', true);
         }
         
-       // this.time.addEvent({ delay: 15000, callback: this.generarPortal, callbackScope: this, loop: false });
 		
         //controles del jugador
         this.espacio1.tilePositionY -= 0.1;
@@ -345,7 +315,7 @@ class Play extends Phaser.Scene {
 		this.controlJugador();
        
       
-        
+        //disparo del jugador
         if(Phaser.Input.Keyboard.JustDown(this.cursors.z)){
 			this.dispararRayo();
 
@@ -359,10 +329,11 @@ class Play extends Phaser.Scene {
         }
         
         
-
+        //conteo puntaje
         this.puntaje += 1;
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
 
+        //condicion ganar nivel
         if (this.puntaje >= 2000){
             this.playAudio.stop();
             this.scene.start('Play02', { puntaje: this.puntaje, jugadorVida: this.jugadorVida });
