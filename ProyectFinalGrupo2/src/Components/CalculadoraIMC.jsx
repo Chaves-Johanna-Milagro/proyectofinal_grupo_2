@@ -12,7 +12,7 @@ function CalculadoraIMC() {
     const [nivelPeso, setNivelPeso] = useState('');
 
     const calcularIMC = () => {
-        if (!nombre || !apellido || peso <= 0 || altura <= 0) {
+        if (!nombre || !apellido || peso <= 0 || peso > 200 || altura <= 0 || altura > 2.10) {
             alert("Por favor, completa todos los campos con valores válidos.");
             return;
         }
@@ -64,7 +64,7 @@ function CalculadoraIMC() {
                         type="number"
                         value={peso}
                         onChange={(e) => setPeso(e.target.value)}
-                        placeholder="Ej: 70.5"
+                        placeholder="Ej: 70.5. Máximo: 200"
                     />
                 </Form.Group>
                 <Form.Group>
@@ -73,7 +73,7 @@ function CalculadoraIMC() {
                         type="number"
                         value={altura}
                         onChange={(e) => setAltura(e.target.value)}
-                        placeholder="Ej: 1.75"
+                        placeholder="Ej: 1.75. Máximo 2.10"
                     />
                 </Form.Group>
                 <Button className="w-100 mt-3" onClick={calcularIMC}>Calcular IMC</Button>
