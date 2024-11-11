@@ -40,11 +40,26 @@ class BonusTrack extends Phaser.Scene {
         moneda.destroy();
         this.puntaje += 500; 
         this.textoDePuntaje.setText('Puntaje: ' + this.puntaje);
+        this.sound.play('moneda');
+        
     }
     
     vidaExtra(){
-		if(this.puntaje > 2500 && this.jugadorVida < 3){
+		if(this.puntaje > 3500 && this.jugadorVida < 3){
+			this.textoVida1 = this.add.text(400, 300, 'Recuperaste una vida', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tsecreto=this.tweens.add({
+			targets:this.textoVida1,
+			visible: true,
+			alpha: 0,
+			ease: "Power 3",
+			duration: 8000,
+			onComplete:function(){
+				tsecreto.remove();
+			}
+        
+        });
 			this.jugadorVida += 1;
+			this.sound.play('energia');
 		}
 		
 	}
@@ -103,6 +118,19 @@ class BonusTrack extends Phaser.Scene {
         this.textoDePuntaje = this.add.text(16, 16, 'Puntaje: ' + this.puntaje, { fontFamily: 'impact', fontSize: '32px', fill: '#fff' });
         
         
+            
+        this.textoNivelSecreto = this.add.text(400, 300, 'Armas desactivadas \n Recolecta monedas para recuperar una vida \n (Si perdiste alguna)', { fontFamily: 'impact', fontSize: '24px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
+        var tsecreto=this.tweens.add({
+			targets:this.textoNivelSecreto,
+			visible: true,
+			alpha: 0,
+			ease: "Power 3",
+			duration: 8000,
+			onComplete:function(){
+				tsecreto.remove();
+			}
+        
+        });
         
 
      
