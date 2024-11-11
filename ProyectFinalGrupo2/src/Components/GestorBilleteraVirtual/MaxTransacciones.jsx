@@ -7,7 +7,7 @@ function MaxTransacciones({ maxTransacciones }) {
       <ul>
         {maxTransacciones.map((usuario, index) => (
           <li key={index}>
-            {usuario.usuario} - {usuario.billetera} - {usuario.numTransac}
+            {usuario.nombre} - {usuario.billetera} - {usuario.numTransac}
           </li>
         ))}
       </ul>
