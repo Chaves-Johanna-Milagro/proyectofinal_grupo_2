@@ -33,6 +33,10 @@ function PantallaDesafio({ nivel, mostrarPantallaLogro, mostrarPantallaDerrota }
                 newNum1 = Math.floor(Math.random() * 12) + 1;
                 newNum2 = Math.floor(Math.random() * 12) + 1;
                 newOperador = Math.random() < 0.5 ? '×' : '÷';
+                //evita que de problemas con resultado decimal
+                if (newOperador === '÷' && newNum1%newNum2 != 0){
+                    newOperador = '×';
+                }
                 break;
             case 'avanzado':
                 newNum1 = (Math.random() * 10).toFixed(1);
@@ -60,6 +64,7 @@ function PantallaDesafio({ nivel, mostrarPantallaLogro, mostrarPantallaDerrota }
                 ? num1 * num2
                 : num1 / num2;
 
+        
         if (parseFloat(respuesta) === correctAnswer) {
             setResultado('¡Correcto!');
             setPuntaje(puntaje + 1);
