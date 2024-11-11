@@ -81,11 +81,6 @@ class Victoria extends Phaser.Scene{
         
         });
 		
-		
-        //this.add.text(400,200,'Ud. ha derrotado al Maligno', {fontFamily: 'impact', fontSize:'48px', fill: '#fff'}).setOrigin(0.5);
-        
-                        
-        //this.add.text(400,300,'Puntaje: '+this.puntaje, {fontFamily: 'impact', fontSize: '32px', fill: '#fff'}).setOrigin(0.5);
         
         this.textoVictoria = this.add.text(400, 300, 'Puntaje: '+this.puntaje, { fontFamily: 'impact', fontSize: '32px', fill: '#fff', align: 'center'  }).setOrigin(0.5);
         var tfinal=this.tweens.add({
@@ -99,25 +94,10 @@ class Victoria extends Phaser.Scene{
 			}
         
         });
-        //this.add.text(400,400,'Barra espaciadora para volver a jugar', {fontFamily: 'impact', fontSize: '32px', fill: '#fff'}).setOrigin(0.5);
-        
-        
-        
-        
+ 
         this.time.addEvent({ delay: 6000, callback: this.creditos, callbackScope: this, loop: true });
         this.time.addEvent({ delay: 20000, callback: this.empezar, callbackScope: this, loop: true });
-	
-	
-        
-        
-      /*  this.input.keyboard.once('keydown-SPACE', () =>{
-			this.sound.stopAll(); ///// Detiene la musique que se ejecute.
-			this.bossLife=300;
-			this.puntaje=0;
-			this.scene.start('Play', { puntaje: this.puntaje });
-        })*/
-		
-		
+
 	}
 		
 		
