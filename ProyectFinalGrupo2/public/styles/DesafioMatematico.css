@@ -1,5 +1,10 @@
 .pantallaInicio{
-    padding: 3rem;   
+    padding: 0.5rem;   
+    .w-100{
+        color:white;
+        font-size:4rem ;
+        font-weight: bold;
+    }
 
     .card-img{
         background-image: url('../../public/img/DFFondoInicio.gif');
@@ -8,7 +13,7 @@
     }
     h1{
         text-align: center;
-        font-size: 5rem;
+        font-size: 4rem;
         background: linear-gradient(rgb(87, 71, 208),rgb(122, 202, 255));
         -webkit-background-clip: text;
         background-clip: text;       
@@ -16,30 +21,68 @@
         color: transparent;
         font-style: italic;
         font-weight: bold;
+        
+
     }
     p{
         padding-top: 2rem;
         padding-bottom: 0;
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 3rem;
         color: rgb(107, 131, 229);
         font-weight: bold;
+        
+        
+        
     }
     Button{
         background: linear-gradient(rgb(87, 71, 208),rgb(122, 202, 255));
     }
     Figure{
-        margin-left: 8rem;
+        margin-left: 4rem;
     }
 }
 
 .pantallaDesafio{
     padding: 3rem;
     text-align: center;
+    h1{
+        font-size:4rem;
+        font-weight:bold;
+        text-shadow:  /*Contraste con el fondo y el texto*/
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        5px 5px 0 #000;
+    }
+    h2{
+        font-size: 4rem;
+        font-weight: bold;
+        text-shadow: 
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        5px 5px 0 #000;
+    }
+    h3{
+        font-size:3rem;
+        font-weight:bold;
+        text-shadow:  /*Contraste con el fondo y el texto*/
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        5px 5px 0 #000;
+    }
+    button{
+        font-size: 3rem;
+        font-weight: bold;
 
+}
+   
+    
     .card{
         /*height: 100vh;*/
-        padding: 2rem;
+        padding: 4rem;
         background-image: url('../../public/img/DFFondoDesafio.gif');
         background-position: center;
         background-size: cover;
@@ -53,8 +96,13 @@
     h1{
         font-size: 3rem;
         margin-top: 5rem;
+        font-weight: bold;
         text-align: center;
-        text-shadow: -2px 2px #cbc2c2;
+        text-shadow: 
+        -2px -2px 0 #ffffff, 
+        2px -2px 0 #ffffff,  
+        -2px 2px 0 #ffffff,  
+        5px 5px 0 #ffffff;
     }
 
     .card{
@@ -72,8 +120,13 @@
     h1{
         color: #a76df8;
         font-size: 3rem;
+        font-weight: bold;
         text-align: center;
-        text-shadow: -2px 2px #ffffff;
+        text-shadow: 
+        -2px -2px 0 #ffffff, 
+        2px -2px 0 #ffffff,  
+        -2px 2px 0 #ffffff,  
+        5px 5px 0 #ffffff;
     }
 
     .card{
