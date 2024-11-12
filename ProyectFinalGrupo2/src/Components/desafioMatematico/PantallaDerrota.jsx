@@ -7,7 +7,7 @@ function PantallaDerrota() {
         <div className='pantallaDerrota'>
             <Card className='card'>
                 <Row className='align-items-center'>
-                    <Col md={5}>
+                    <Col md={6}>
                     <h1>No lograste superar el desafío matemático.</h1>
                     </Col>
                 </Row>

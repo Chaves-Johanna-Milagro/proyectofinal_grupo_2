@@ -5,26 +5,34 @@ import '../../../public/styles/DesafioMatematico.css';
 function PantallaInicio({ iniciarJuego }) {
     return (
         <section className='pantallaInicio'>
-            <Card className="card-img p-5">
+            <Card className="card-img p-4">
             <Row className='align-items-center'>
                 <h1>Desafío Matemático</h1>
-                <Col md={6}>
+                <Col md={15}>
                    <div>
                    <p>Seleccione el nivel de dificultad:</p>
-                   <Button className="w-100 mt-3" onClick={() => iniciarJuego('basico')}>Básico</Button>
-                   <Button className="w-100 mt-3" onClick={() => iniciarJuego('intermedio')}>Intermedio</Button>
-                   <Button className="w-100 mt-3" onClick={() => iniciarJuego('avanzado')}>Avanzado</Button>
+                   <Button className="w-100 mt-4" onClick={() => iniciarJuego('basico')}>Básico<Figure>
+                                    <Figure.Image
+                                        src='../../public/img/basico.png'
+                                        width="200px"
+                                    />
+                                </Figure></Button>
+                   
+                   <Button className="w-100 mt-5" onClick={() => iniciarJuego('intermedio')}>Intermedio<Figure>
+                                    <Figure.Image
+                                        src='../../public/img/intermedio.png'
+                                        width="200px"
+                                    />
+                                </Figure></Button>
+                   <Button className="w-100 mt-5" onClick={() => iniciarJuego('avanzado')}>Avanzado<Figure>
+                                    <Figure.Image
+                                        src='../../public/img/avanzado.png'
+                                        width="200px"
+                                    />
+                                </Figure></Button>
                    </div>               
                 </Col>
-                <Col md={3}>
-                    <Figure className="w-100 mt-3">
-                        <Figure.Image 
-                        src='../../public/img/DFInicio.gif'
-                        alt="img"
-                        width="400px">
-                        </Figure.Image>
-                    </Figure>
-                </Col>
+               
             </Row>
             </Card>
         </section>
